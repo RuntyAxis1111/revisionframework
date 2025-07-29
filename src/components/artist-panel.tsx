@@ -1,9 +1,9 @@
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Newspaper, Download, MoreVertical } from "lucide-react"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useMediaQuery } from "@/hooks/use-media-query"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu"
+import { useMediaQuery } from "../hooks/use-media-query"
 
 type Tab = "metrics" | "news"
 

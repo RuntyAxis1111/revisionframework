@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { HoverMenu } from "./hover-menu"
-import { useAuth } from "@/contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 
 interface HeaderProps {
   activeTab: string

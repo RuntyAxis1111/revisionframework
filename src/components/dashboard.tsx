@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Header } from "@/components/header"
-import { ContentSection } from "@/components/content-section"
-import { data } from "@/lib/data"
+import { Header } from "./header"
+import { ContentSection } from "./content-section"
+import { data } from "../lib/data"
 
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState("artists")

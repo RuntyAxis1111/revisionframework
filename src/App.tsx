@@ -1,7 +1,7 @@
-import { useAuth } from "@/contexts/AuthContext"
-import { SignInPage } from "@/components/signin-page"
-import { AccessDenied } from "@/components/access-denied"
-import { Dashboard } from "@/components/dashboard"
+import { useAuth } from "./contexts/AuthContext"
+import { SignInPage } from "./components/signin-page"
+import { AccessDenied } from "./components/access-denied"
+import { Dashboard } from "./components/dashboard"
 
 export default function App() {
   const { user, loading } = useAuth()
