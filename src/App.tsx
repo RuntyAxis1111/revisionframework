@@ -1,48 +1,32 @@
-import { useState } from "react"
-import { Header } from "@/components/header"
-import { PasswordOverlay } from "@/components/password-overlay"
-import { ContentSection } from "@/components/content-section"
-import { data } from "@/lib/data"
+import { useAuth } from "@/contexts/AuthContext"
+import { SignInPage } from "@/components/signin-page"
+import { AccessDenied } from "@/components/access-denied"
+import { Dashboard } from "@/components/dashboard"
 
-export default function Dashboard() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [activeTab, setActiveTab] = useState("artists")
-  const [selectedItem, setSelectedItem] = useState<{
-    id: string
-    type: string
-    socialId?: string
-  } | null>(null)
+export default function App() {
+  const { user, loading } = useAuth()
 
-  const handlePasswordSuccess = () => {
-    setIsAuthenticated(true)
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-black">Cargando...</p>
+        </div>
+      </div>
+    )
   }
 
-  const handleTabChange = (tabId: string) => {
-    // Only reset selectedItem if we're switching to a different tab
-    if (tabId !== activeTab) {
-      setActiveTab(tabId)
-      setSelectedItem(null)
-    } else {
-      // If clicking the same tab, just update activeTab but keep selectedItem
-      setActiveTab(tabId)
-    }
+  if (!user) {
+    return <SignInPage />
   }
 
-  const handleItemSelect = (itemId: string, type: string, socialId?: string) => {
-    setSelectedItem({ id: itemId, type, socialId })
+  // Check if user email is from @hybecorp.com
+  const isAuthorized = user.email?.endsWith('@hybecorp.com')
+
+  if (!isAuthorized) {
+    return <AccessDenied />
   }
 
-  if (!isAuthenticated) {
-    return <PasswordOverlay onSuccess={handlePasswordSuccess} />
-  }
-
-  return (
-    <div className="min-h-screen bg-white">
-      <Header activeTab={activeTab} onTabChange={handleTabChange} onItemSelect={handleItemSelect} data={data} />
-
-      <main className="pt-16">
-        <ContentSection activeTab={activeTab} selectedItem={selectedItem} data={data} />
-      </main>
-    </div>
-  )
+  return <Dashboard />
 }

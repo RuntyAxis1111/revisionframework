@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { HoverMenu } from "./hover-menu"
+import { useAuth } from "@/contexts/AuthContext"
 
 interface HeaderProps {
   activeTab: string
@@ -10,6 +11,7 @@ interface HeaderProps {
 
 export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const { signOut, user } = useAuth()
 
   const tabs = [
     { id: "artists", label: "ARTISTS" },
@@ -38,7 +40,18 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
     <header className="fixed top-0 left-0 w-full h-16 bg-white text-black z-50 shadow-md">
       <div className="flex flex-col items-center justify-center h-full">
         <div className="flex-1 flex items-center justify-center w-full px-4">
-          <h1 className="text-xl font-bold">HYBE LATIN AMERICA – DATA HUB (alpha)</h1>
+          <div className="flex items-center justify-between w-full">
+            <h1 className="text-xl font-bold">HYBE LATIN AMERICA – DATA HUB (alpha)</h1>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">{user?.email}</span>
+              <button
+                onClick={signOut}
+                className="text-sm px-3 py-1 border border-black text-black hover:bg-black hover:text-white transition-colors rounded"
+              >
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
         </div>
 
         <nav className="flex w-full h-8 relative">
