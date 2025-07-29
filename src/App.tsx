@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { Header } from "@/components/header"
 import { PasswordOverlay } from "@/components/password-overlay"
