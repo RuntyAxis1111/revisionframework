@@ -1,0 +1,590 @@
+:root {
+  font-family: 'Montserrat', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --sidebar-width-desktop: 250px; /* Keep variable but not used for layout */
+  --header-height: 64px;
+  --gap: 15px;
+  --band-buttons-height: 32px; /* Keep variable but not used for layout */
+
+  /* Define the two primary colors */
+  --color-primary: #FFFFFF; /* White (Dominant) */
+  --color-secondary: #000000; /* Black */
+
+  /* Map existing color variables to the two primary colors */
+  --color-black: var(--color-secondary);
+  --color-yellow: var(--color-secondary); /* Using black for elements previously yellow */
+  --color-white: var(--color-primary);
+  --color-light-grey: rgba(0, 0, 0, 0.1); /* Black with transparency */
+  --color-dark-grey: rgba(0, 0, 0, 0.5); /* Black with transparency */
+  --color-panel-background: var(--color-primary);
+  --color-sidebar-gradient-start: var(--color-primary); /* Keep variable but not used */
+  --color-sidebar-gradient-end: var(--color-primary); /* Keep variable but not used */
+  --color-fire-glow: rgba(0, 0, 0, 0.1); /* Subtle black glow */
+  --color-neon-glow: rgba(0, 0, 0, 0.2); /* Subtle black glow */
+
+  --main-bg-color: var(--color-primary);
+  --sidebar-bg-color-start: var(--color-primary); /* Keep variable but not used */
+  --sidebar-bg-color-end: var(--color-primary); /* Keep variable but not used */
+  --sidebar-text-color: var(--color-secondary); /* Keep variable but not used */
+  --panel-bg-color: var(--color-primary);
+  --panel-border-color: var(--color-secondary);
+  --header-bg-color: var(--color-primary);
+  --header-text-color: var(--color-secondary);
+  --active-item-bg-color: var(--color-secondary);
+  --active-item-text-color: var(--color-primary);
+  --gauge-track-color: var(--color-dark-grey);
+  --gauge-progress-color: var(--color-secondary);
+  --card-background: var(--color-primary);
+  --card-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Black shadow */
+  --card-padding-desktop: 24px;
+  --card-padding-mobile: 16px;
+  --card-title-color: var(--color-secondary);
+  --card-title-font-size: 18px;
+
+  --animation-duration: 1.5s;
+  --transition-duration: 0.3s;
+  --button-transition-duration: 0.15s;
+
+  --panel-height-desktop: 90vh; /* Increased panel height */
+  --panel-height-mobile: 80vh; /* Increased panel height for mobile */
+  --panel-border-width: 2px;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 4px 0px var(--panel-border-color); }
+  50% { box-shadow: 0 0 10px 3px var(--panel-border-color); }
+  100% { box-shadow: 0 0 4px 0px var(--panel-border-color); }
+}
+
+@keyframes fireGlow {
+  0% { box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1); } /* Subtle black glow */
+  50% { box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2); } /* Subtle black glow */
+  100% { box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1); } /* Subtle black glow */
+}
+
+@keyframes neonGlow {
+  0% { box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1); } /* Subtle black glow */
+  50% { box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.2); } /* Subtle black glow */
+  100% { box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1); } /* Subtle black glow */
+}
+
+@keyframes grow-skew-reverse {
+  0% { transform: scale(1) skewX(0); }
+  50% { transform: scale(1.05) skewX(-2deg); }
+  100% { transform: scale(1) skewX(0); }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--main-bg-color);
+  color: var(--color-secondary); /* Use secondary color for default text */
+}
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,.5);
+}
+
+.header-title {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 var(--gap);
+  box-sizing: border-box;
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--header-text-color);
+}
+
+.hamburger-icon {
+  display: none;
+}
+
+.main-nav {
+  display: flex;
+  width: 100%;
+  height: 32px;
+  position: relative; /* Needed for positioning hover menus */
+  z-index: 990; /* Below header, above content */
+}
+
+.nav-item {
+  flex-grow: 1;
+  flex-basis: 0;
+  position: relative; /* Needed for positioning hover menu relative to item */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  color: var(--color-secondary); /* Use secondary color for button text */
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color var(--transition-duration) ease,
+              color var(--transition-duration) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+}
+
+.main-nav .nav-item:nth-child(1) .nav-button {
+  margin-right: -15px;
+}
+
+.main-nav .nav-item:nth-child(2) .nav-button {
+  z-index: 1;
+  margin-right: -15px;
+}
+
+.nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.15); /* Black with transparency */
+  color: var(--color-secondary);
+}
+
+.nav-button.active {
+  background-color: var(--active-item-bg-color);
+  color: var(--active-item-text-color);
+}
+
+/* Hover Menu Styles */
+.hover-menu {
+  display: none;
+  position: absolute;
+  top: 100%; /* Position below the nav button */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-secondary);
+  box-shadow: var(--card-box-shadow);
+  padding: var(--gap);
+  z-index: 980; /* Below main nav */
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+.nav-item:hover > .hover-menu {
+  display: flex; /* Use flex for column layout */
+  flex-direction: column;
+}
+
+.hover-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hover-menu li {
+  padding: 8px 0;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease,
+              color var(--transition-duration) ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Subtle separator */
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  position: relative; /* Needed for sub-menus */
+}
+
+.hover-menu li:last-child {
+  border-bottom: none;
+}
+
+.hover-menu li:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Lighter hover for menu items */
+  color: var(--color-secondary);
+}
+
+.hover-menu li.active {
+   background-color: var(--active-item-bg-color);
+   color: var(--active-item-text-color);
+}
+
+/* PALF specific menu styles */
+.palf-menu {
+  flex-direction: row; /* Two columns */
+  gap: var(--gap);
+}
+
+.palf-menu .menu-column {
+  flex: 1;
+}
+
+.palf-menu .menu-column h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1em;
+  color: var(--color-secondary);
+  border-bottom: 1px solid var(--color-secondary);
+  padding-bottom: 5px;
+}
+
+/* Sub-menu styles */
+.sub-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%; /* Position to the right of the parent item */
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-secondary);
+  box-shadow: var(--card-box-shadow);
+  padding: var(--gap);
+  z-index: 985; /* Above main hover menu */
+  min-width: 150px;
+  box-sizing: border-box;
+}
+
+.hover-menu li:hover > .sub-menu {
+  display: block;
+}
+
+.sub-menu li {
+  padding: 8px 0;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease,
+              color var(--transition-duration) ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: normal; /* Less bold than parent */
+  text-transform: none; /* Not uppercase */
+  color: var(--color-secondary);
+}
+
+.sub-menu li:last-child {
+  border-bottom: none;
+}
+
+.sub-menu li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--color-secondary);
+}
+
+.sub-menu li.active {
+   background-color: var(--active-item-bg-color);
+   color: var(--active-item-text-color);
+}
+
+
+/* Content Area Adjustments */
+.container {
+  padding-top: calc(var(--header-height) + 8px); /* Reduced padding */
+  display: flex;
+  height: calc(100vh - var(--header-height) - 8px); /* Adjusted height */
+  overflow: hidden;
+}
+
+.content-section {
+  display: none;
+  padding-top: calc(var(--header-height) + 8px); /* Reduced padding */
+  height: calc(100vh - var(--header-height) - 8px); /* Adjusted height */
+  overflow: hidden;
+}
+
+.content-section.active {
+  display: block;
+}
+
+.content-section .container {
+  padding-top: 0;
+  height: 100%;
+}
+
+.panels-section {
+  margin-left: 0; /* No sidebar margin */
+  transition: none; /* No sidebar transition */
+  width: 100%;
+  flex-grow: 1;
+  padding: var(--gap);
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel {
+  background-color: var(--panel-bg-color);
+  border: var(--panel-border-width) solid var(--panel-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  box-shadow: var(--card-box-shadow);
+  animation: neonGlow var(--animation-duration) ease-in-out infinite alternate;
+  width: 100%;
+  height: 100%;
+}
+
+.panel.active-panel {
+  display: flex;
+}
+
+.panel-header {
+  background-color: var(--color-secondary); /* Secondary color for header background */
+  color: var(--color-primary); /* Primary color for header text */
+  padding: 10px var(--gap);
+  font-weight: bold;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header .panel-title {
+  flex-grow: 1;
+}
+
+.panel-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between button and icon */
+}
+
+/* Style for the private data button inside the panel header */
+.panel-header .private-data-button {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Space between icon and text */
+  transition: all var(--button-transition-duration) ease;
+}
+
+.panel-header .private-data-button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.panel-header .material-icons {
+  font-size: 20px; /* Adjust icon size if needed */
+}
+
+
+.panel-content {
+  flex-grow: 1;
+  position: relative;
+}
+
+.panel-content iframe,
+.panel-content video { /* Add video to styles */
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Remove the old static private-data-button styles */
+.private-data-button {
+  display: none;
+}
+
+/* Update hover menu styles for artists - remove sub-menu display */
+#artists-menu .sub-menu {
+  display: none !important;
+}
+
+/* Update hover menu styles for truvatos - remove sub-menu display */
+#truvatos-menu .sub-menu {
+  display: none !important;
+}
+
+
+@media (max-width: 768px) {
+  .main-header h1 {
+    font-size: 1.2em;
+  }
+
+  .main-nav {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-button {
+    padding: 10px 0;
+    clip-path: none;
+    margin-right: 0 !important;
+  }
+
+  /* Hover menu adjustments for mobile */
+  .hover-menu {
+    position: static; /* Stack below button */
+    transform: none;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    padding: 0 var(--gap);
+    background-color: transparent;
+  }
+
+  .nav-item:hover > .hover-menu {
+     display: none; /* Hide on hover for mobile, will need JS toggle */
+  }
+
+  .palf-menu {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .palf-menu .menu-column {
+    width: 100%;
+  }
+
+  .sub-menu {
+    position: static; /* Stack below parent item */
+    left: auto;
+    border: none;
+    box-shadow: none;
+    padding: 0 var(--gap);
+    background-color: transparent;
+  }
+
+  .hover-menu li:hover > .sub-menu {
+    display: none; /* Hide on hover for mobile, will need JS toggle */
+  }
+
+
+  .container,
+  .content-section {
+    padding-top: calc(var(--header-height) + 64px); /* Adjust padding for mobile */
+    height: calc(100vh - var(--header-height) - 64px); /* Adjust height for mobile */
+  }
+
+  .panels-section {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  /* Adjust private data button position for mobile if needed, but it's now in header */
+  .panel-header .private-data-button {
+     font-size: 0.8em;
+     padding: 4px 8px;
+     gap: 4px;
+  }
+   .panel-header .material-icons {
+     font-size: 18px;
+   }
+}
+
+/* Password Overlay Styles - Updated for two colors */
+.password-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95); /* Primary with transparency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.password-box {
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-secondary);
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  animation: neonGlow var(--animation-duration) ease-in-out infinite alternate;
+}
+
+.password-box h2 {
+  color: var(--color-secondary);
+  margin: 0 0 20px 0;
+  font-size: 24px;
+}
+
+.password-box input {
+  width: 200px;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-secondary); /* Secondary color for input text */
+  border-radius: 4px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.password-box button {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.password-box button:hover {
+  background-color: var(--color-secondary); /* Keep secondary on hover */
+  box-shadow: 0 0 10px var(--color-secondary);
+}
+
+.error-message {
+  color: var(--color-secondary); /* Use secondary color for error message */
+  margin-top: 10px;
+  font-size: 14px;
+  min-height: 20px;
+}

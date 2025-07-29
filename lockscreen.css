@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.lock-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #000; /* Ensure black background */
+    z-index: 9999; /* High z-index to cover everything */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.lock-box {
+    background-color: #1b1b1b;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    animation: neonGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow {
+    0% { box-shadow: 0 0 5px 2px rgba(255, 215, 0, 0.3); }
+    50% { box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.7); }
+    100% { box-shadow: 0 0 5px 2px rgba(255, 215, 0, 0.3); }
+}
+
+
+.lock-box h1 {
+    color: #FFD700;
+    margin-top: 0;
+    font-size: 2em;
+}
+
+.lock-box p {
+    margin-bottom: 20px;
+}
+
+.lock-box input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #FFD700;
+    background-color: #000;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 1em;
+    text-align: center;
+}
+
+.lock-box button {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lock-box button:hover {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.lock-box .error {
+    color: #ff4d4d;
+    margin-top: 15px;
+    font-weight: bold;
+}
