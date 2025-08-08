@@ -15,12 +15,6 @@ export function Dashboard() {
   const navigate = useNavigate()
 
   const handleTabChange = (tabId: string) => {
-    // Handle navigation to assistant
-    if (tabId === "assistant") {
-      navigate("/assistant")
-      return
-    }
-
     // Only reset selectedItem if we're switching to a different tab
     if (tabId !== activeTab) {
       setActiveTab(tabId)
