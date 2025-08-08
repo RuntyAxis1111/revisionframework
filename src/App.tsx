@@ -4,7 +4,7 @@ import { useAuth } from "./contexts/AuthContext"
 import { SignInPage } from "./components/signin-page"
 import { AccessDenied } from "./components/access-denied"
 import { Dashboard } from "./components/dashboard"
-import { AssistantPage } from './components/AssistantPage'
+import Assistant from './pages/Assistant'
 
 export default function App() {
   const { user, loading } = useAuth()
@@ -39,7 +39,7 @@ export default function App() {
         path="/" 
         element={<Dashboard key={location.state?.activeTab || 'default'} />} 
       />
-      <Route path="/assistant" element={<AssistantPage />} />
+      <Route path="/assistant" element={<Assistant />} />
     </Routes>
   )
 }

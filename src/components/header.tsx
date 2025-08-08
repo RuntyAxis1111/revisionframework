@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useLocation } from "react-router-dom"
 import { HoverMenu } from "./hover-menu"
 import { useAuth } from "../contexts/AuthContext"
 
@@ -12,6 +13,12 @@ interface HeaderProps {
 export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const { signOut, user } = useAuth()
+  const location = useLocation()
+
+  // Ocultar header completo en /assistant
+  if (location.pathname === '/assistant') {
+    return null
+  }
 
   const tabs = [
     { id: "artists", label: "ARTISTS" },
