@@ -1,5 +1,5 @@
 import AssistantBar from '../components/AssistantBar'
-import ChatOverlayStandalone from '../components/ChatOverlayStandalone'
+import { ChatOverlayStandalone } from '../components/ChatOverlayStandalone'
 
 export default function Assistant() {
   return (
