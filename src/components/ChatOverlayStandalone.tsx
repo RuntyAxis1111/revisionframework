@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
+import ChatBubble from './ChatBubble'
 
 interface Message {
   id: string
   text: string
-  isUser: boolean
+  role: 'user' | 'bot'
   timestamp: Date
 }
 
@@ -33,7 +34,7 @@ export function ChatOverlayStandalone() {
     const userMessage: Message = {
       id: Date.now().toString(),
       text: text.trim(),
-      isUser: true,
+      role: 'user',
       timestamp: new Date()
     }
 
@@ -62,7 +63,7 @@ export function ChatOverlayStandalone() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: data || 'Lo siento, no pude procesar tu mensaje.',
-        isUser: false,
+        role: 'bot',
         timestamp: new Date()
       }
 
@@ -73,7 +74,7 @@ export function ChatOverlayStandalone() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, inténtalo de nuevo.',
-        isUser: false,
+        role: 'bot',
         timestamp: new Date()
       }
 
@@ -102,9 +103,11 @@ export function ChatOverlayStandalone() {
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
             <div className="text-center text-gray-500">
-              <div className="w-16 h-16 mx-auto mb-4 bg-black rounded-full flex items-center justify-center">
-                <span className="text-white text-xl font-bold">🐧</span>
-              </div>
+              <img
+                src="/assets/pinguinohybe.png"
+                alt="pinguino Json"
+                className="w-16 h-16 mx-auto mb-4 rounded-full border border-neutral-300 shadow-sm"
+              />
               <h2 className="text-xl font-semibold mb-2 text-black">¡Hola! Soy pinguino Json</h2>
               <p className="text-sm">Escribe un mensaje para comenzar la conversación</p>
             </div>
@@ -112,26 +115,7 @@ export function ChatOverlayStandalone() {
         )}
         
         {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`max-w-[60%] rounded-xl px-4 py-3 ${
-                message.isUser
-                  ? 'bg-black text-white'
-                  : 'bg-neutral-100 text-black border border-neutral-200'
-              }`}
-            >
-              <p className="text-sm whitespace-pre-wrap font-sans">{message.text}</p>
-              <span className="text-xs opacity-60 mt-1 block">
-                {message.timestamp.toLocaleTimeString([], { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                })}
-              </span>
-            </div>
-          </div>
+          <ChatBubble key={message.id} role={message.role} text={message.text} />
         ))}
         
         {isLoading && (
@@ -139,6 +123,11 @@ export function ChatOverlayStandalone() {
             <div className="bg-neutral-100 text-black border border-neutral-200 rounded-xl px-4 py-3">
               <div className="flex items-center space-x-2">
                 <div className="flex space-x-1">
+                  <img
+                    src="/assets/pinguinohybe.png"
+                    alt="pinguino Json"
+                    className="h-8 w-8 rounded-full border border-neutral-300 shadow-sm mr-2"
+                  />
                   <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
                   <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                   <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
