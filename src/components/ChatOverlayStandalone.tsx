@@ -105,7 +105,7 @@ export function ChatOverlayStandalone() {
             <div className="text-center text-gray-500">
               <img
                 src="/assets/pinguinohybe.png"
-                alt="pinguino Json"
+                alt="pinguino Hybe"
                 className="w-20 h-20 mx-auto mb-4 object-contain"
               />
               <h2 className="text-xl font-semibold mb-2 text-black">¡Hola! Soy pinguino Json</h2>

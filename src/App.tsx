@@ -21,17 +21,16 @@ export default function App() {
     )
   }
 
-  // Autenticación deshabilitada temporalmente para desarrollo
-  // if (!user) {
-  //   return <SignInPage />
-  // }
+  if (!user) {
+    return <SignInPage />
+  }
 
-  // // Check if user email is from @hybecorp.com
-  // const isAuthorized = user.email?.endsWith('@hybecorp.com')
+  // Check if user email is from @hybecorp.com
+  const isAuthorized = user.email?.endsWith('@hybecorp.com')
 
-  // if (!isAuthorized) {
-  //   return <AccessDenied />
-  // }
+  if (!isAuthorized) {
+    return <AccessDenied />
+  }
 
   return (
     <Routes>
