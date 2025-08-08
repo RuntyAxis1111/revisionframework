@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Header } from "./header"
 import { ContentSection } from "./content-section"
+import { AiAssistantFab } from "./AiAssistantFab"
 import { data } from "../lib/data"
 
 export function Dashboard() {
@@ -33,6 +34,8 @@ export function Dashboard() {
       <main className="pt-16">
         <ContentSection activeTab={activeTab} selectedItem={selectedItem} data={data} />
       </main>
+      
+      <AiAssistantFab />
     </div>
   )
 }

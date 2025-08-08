@@ -1,7 +1,9 @@
+import { Routes, Route } from 'react-router-dom'
 import { useAuth } from "./contexts/AuthContext"
 import { SignInPage } from "./components/signin-page"
 import { AccessDenied } from "./components/access-denied"
 import { Dashboard } from "./components/dashboard"
+import { AssistantPage } from './components/AssistantPage'
 
 export default function App() {
   const { user, loading } = useAuth()
@@ -29,5 +31,10 @@ export default function App() {
   //   return <AccessDenied />
   // }
 
-  return <Dashboard />
+  return (
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/assistant" element={<AssistantPage />} />
+    </Routes>
+  )
 }
