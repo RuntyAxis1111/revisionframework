@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from "./contexts/AuthContext"
 import { SignInPage } from "./components/signin-page"
 import { AccessDenied } from "./components/access-denied"
@@ -7,6 +8,7 @@ import { AssistantPage } from './components/AssistantPage'
 
 export default function App() {
   const { user, loading } = useAuth()
+  const location = useLocation()
 
   if (loading) {
     return (
@@ -33,7 +35,10 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
+      <Route 
+        path="/" 
+        element={<Dashboard key={location.state?.activeTab || 'default'} />} 
+      />
       <Route path="/assistant" element={<AssistantPage />} />
     </Routes>
   )

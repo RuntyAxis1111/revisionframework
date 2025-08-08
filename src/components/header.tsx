@@ -18,6 +18,7 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
     { id: "palf", label: "PALF" },
     { id: "truvatos", label: "TRUVATOS" },
     { id: "communities", label: "COMMUNITIES" },
+    { id: "assistant", label: "ASSISTANT" },
   ]
 
   const handleTabClick = (tabId: string) => {
@@ -25,7 +26,10 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
     onTabChange(tabId)
 
     // Handle dropdown logic
-    if (openDropdown === tabId) {
+    if (tabId === "assistant") {
+      // No dropdown for assistant tab
+      setOpenDropdown(null)
+    } else if (openDropdown === tabId) {
       setOpenDropdown(null)
     } else {
       setOpenDropdown(tabId)
@@ -77,11 +81,11 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
               >
                 <span className="inline-block transition-transform duration-200 hover:scale-110">
                   {tab.label}
-                  {openDropdown === tab.id && <span className="ml-1 text-xs">▼</span>}
+                  {openDropdown === tab.id && tab.id !== "assistant" && <span className="ml-1 text-xs">▼</span>}
                 </span>
               </button>
 
-              {openDropdown === tab.id && (
+              {openDropdown === tab.id && tab.id !== "assistant" && (
                 <div>
                   <HoverMenu tabId={tab.id} data={data} onItemSelect={onItemSelect} onClose={handleDropdownClose} />
                 </div>

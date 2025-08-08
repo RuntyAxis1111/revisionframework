@@ -96,13 +96,16 @@ export function ChatOverlayStandalone() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-zinc-900">
+    <div className="flex-1 flex flex-col bg-white">
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
-            <div className="text-center text-zinc-400">
-              <h2 className="text-xl font-semibold mb-2">¡Hola! Soy tu asistente</h2>
+            <div className="text-center text-gray-500">
+              <div className="w-16 h-16 mx-auto mb-4 bg-black rounded-full flex items-center justify-center">
+                <span className="text-white text-xl font-bold">🐧</span>
+              </div>
+              <h2 className="text-xl font-semibold mb-2 text-black">¡Hola! Soy pinguino Json</h2>
               <p className="text-sm">Escribe un mensaje para comenzar la conversación</p>
             </div>
           </div>
@@ -114,13 +117,13 @@ export function ChatOverlayStandalone() {
             className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] rounded-lg px-4 py-2 ${
+              className={`max-w-[60%] rounded-xl px-4 py-3 ${
                 message.isUser
                   ? 'bg-black text-white'
-                  : 'bg-zinc-700 text-white'
+                  : 'bg-neutral-100 text-black border border-neutral-200'
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+              <p className="text-sm whitespace-pre-wrap font-sans">{message.text}</p>
               <span className="text-xs opacity-60 mt-1 block">
                 {message.timestamp.toLocaleTimeString([], { 
                   hour: '2-digit', 
@@ -133,14 +136,14 @@ export function ChatOverlayStandalone() {
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-zinc-700 text-white rounded-lg px-4 py-2">
+            <div className="bg-neutral-100 text-black border border-neutral-200 rounded-xl px-4 py-3">
               <div className="flex items-center space-x-2">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
                 </div>
-                <span className="text-xs text-zinc-300">Escribiendo...</span>
+                <span className="text-xs text-gray-500">Escribiendo...</span>
               </div>
             </div>
           </div>
@@ -150,7 +153,7 @@ export function ChatOverlayStandalone() {
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-zinc-700 p-4">
+      <div className="border-t border-neutral-200 p-3 bg-white">
         <form onSubmit={handleSubmit} className="flex space-x-2">
           <input
             ref={inputRef}
@@ -160,12 +163,12 @@ export function ChatOverlayStandalone() {
             onKeyPress={handleKeyPress}
             placeholder="Escribe tu mensaje..."
             disabled={isLoading}
-            className="flex-1 bg-zinc-800 text-white border border-zinc-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent disabled:opacity-50"
+            className="flex-1 bg-white text-black border border-neutral-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent disabled:opacity-50 font-sans text-sm"
           />
           <button
             type="submit"
             disabled={!inputValue.trim() || isLoading}
-            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="bg-black text-white px-4 py-2 rounded-md hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-sans text-sm"
           >
             Enviar
           </button>

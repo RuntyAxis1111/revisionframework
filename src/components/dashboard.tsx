@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Header } from "./header"
 import { ContentSection } from "./content-section"
 import { AiAssistantFab } from "./AiAssistantFab"
@@ -11,8 +12,15 @@ export function Dashboard() {
     type: string
     socialId?: string
   } | null>(null)
+  const navigate = useNavigate()
 
   const handleTabChange = (tabId: string) => {
+    // Handle navigation to assistant
+    if (tabId === "assistant") {
+      navigate("/assistant")
+      return
+    }
+
     // Only reset selectedItem if we're switching to a different tab
     if (tabId !== activeTab) {
       setActiveTab(tabId)

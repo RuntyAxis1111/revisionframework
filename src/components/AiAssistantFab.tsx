@@ -1,12 +1,22 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export function AiAssistantFab() {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleClick = () => {
+    const path = location.pathname
+    if (path.startsWith("/assistant")) {
+      navigate(-1) // Go back to previous dashboard
+    } else {
+      navigate("/assistant")
+    }
+  }
 
   return (
     <button
       aria-label="Abrir asistente"
-      onClick={() => navigate('/assistant')}
+      onClick={handleClick}
       className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-black text-white flex items-center justify-center shadow-xl hover:bg-neutral-800 transition-colors z-50"
     >
       <svg 
