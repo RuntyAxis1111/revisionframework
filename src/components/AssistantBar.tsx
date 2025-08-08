@@ -11,7 +11,7 @@ export default function AssistantBar() {
       >
         ← Dashboard
       </button>
-      <span className="mx-auto font-semibold text-black">pinguino Json</span>
+      <span className="mx-auto font-semibold text-black">pinguino Hybe</span>
     </header>
   )
 }

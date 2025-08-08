@@ -13,7 +13,7 @@ export default function ChatBubble({ role, text, link }: BubbleProps) {
         <div className="flex-shrink-0">
           <img
             src="/assets/pinguinohybe.png"
-            alt="pinguino Json"
+            alt="pinguino Hybe"
             className="w-16 h-16 object-contain animate-[pulse_4s_ease-in-out_infinite]"
           />
         </div>
