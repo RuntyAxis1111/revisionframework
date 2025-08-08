@@ -142,27 +142,27 @@ export function ChatOverlayStandalone() {
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-neutral-200 p-3 bg-white">
-        <form onSubmit={handleSubmit} className="flex space-x-2">
+      <form onSubmit={handleSubmit} className="flex gap-3 bg-white p-4 border-t border-neutral-200">
           <input
             ref={inputRef}
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Escribe tu mensaje..."
+            placeholder="Escribe tu mensaje…"
             disabled={isLoading}
-            className="flex-1 bg-white text-black border border-neutral-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent disabled:opacity-50 font-sans text-sm"
+            className="flex-1 rounded-full border border-neutral-300 px-5 py-3
+                       placeholder:text-neutral-500 focus:ring-2 focus:ring-black
+                       shadow-inner disabled:opacity-50 font-sans text-sm"
           />
           <button
             type="submit"
             disabled={!inputValue.trim() || isLoading}
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-sans text-sm"
+            className="rounded-full bg-black text-white px-6 py-3 hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-sans text-sm"
           >
             Enviar
           </button>
-        </form>
-      </div>
+      </form>
     </div>
   )
 }
