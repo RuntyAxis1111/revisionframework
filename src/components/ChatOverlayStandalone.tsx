@@ -109,7 +109,7 @@ export function ChatOverlayStandalone() {
                 className="w-20 h-20 mx-auto mb-4 object-contain"
               />
               <h2 className="text-xl font-semibold mb-2 text-black">¡Hola! Soy pinguino Json</h2>
-              <p className="text-sm">Escribe un mensaje para comenzar la conversación</p>
+              <p className="text-sm">Escribe lo que necesites y te armo el reporte al toque 🐧📊</p>
             </div>
           </div>
         )}
