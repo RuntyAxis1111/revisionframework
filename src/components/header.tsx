@@ -42,7 +42,8 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
         <div className="flex-1 flex items-center justify-center w-full px-4">
           <div className="flex items-center justify-between w-full">
             <h1 className="text-xl font-bold">HYBE LATIN AMERICA – DATA HUB (alpha)</h1>
-            <div className="flex items-center gap-4">
+            {/* Botón de cerrar sesión deshabilitado temporalmente */}
+            {/* <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">{user?.email}</span>
               <button
                 onClick={signOut}
@@ -50,7 +51,7 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
               >
                 Cerrar sesión
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
 
