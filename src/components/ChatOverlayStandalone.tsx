@@ -106,7 +106,7 @@ export function ChatOverlayStandalone() {
               <img
                 src="/assets/pinguinohybe.png"
                 alt="pinguino Json"
-                className="w-16 h-16 mx-auto mb-4 rounded-full border border-neutral-300 shadow-sm"
+                className="w-20 h-20 mx-auto mb-4 object-contain"
               />
               <h2 className="text-xl font-semibold mb-2 text-black">¡Hola! Soy pinguino Json</h2>
               <p className="text-sm">Escribe un mensaje para comenzar la conversación</p>
@@ -120,19 +120,33 @@ export function ChatOverlayStandalone() {
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-neutral-100 text-black border border-neutral-200 rounded-xl px-4 py-3">
-              <div className="flex items-center space-x-2">
-                <div className="flex space-x-1">
-                  <img
-                    src="/assets/pinguinohybe.png"
-                    alt="pinguino Json"
-                    className="h-8 w-8 rounded-full border border-neutral-300 shadow-sm mr-2"
-                  />
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+            <div className="flex items-start gap-3 mb-4">
+              <div className="flex-shrink-0">
+                <img
+                  src="/assets/pinguinohybe.png"
+                  alt="pinguino Json"
+                  className="w-16 h-16 object-contain animate-[pulse_4s_ease-in-out_infinite]"
+                />
+              </div>
+              <div className="relative">
+                <div 
+                  className="absolute left-0 top-4 w-0 h-0 -translate-x-2"
+                  style={{
+                    borderTop: '8px solid transparent',
+                    borderBottom: '8px solid transparent', 
+                    borderRight: '8px solid rgb(245, 245, 245)',
+                  }}
+                />
+                <div className="bg-neutral-100 text-black border border-neutral-200 rounded-xl px-4 py-3">
+                  <div className="flex items-center space-x-2">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                    </div>
+                    <span className="text-xs text-gray-500">Escribiendo...</span>
+                  </div>
                 </div>
-                <span className="text-xs text-gray-500">Escribiendo...</span>
               </div>
             </div>
           </div>
