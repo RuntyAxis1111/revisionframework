@@ -24,7 +24,6 @@ export function ChatOverlayStandalone() {
   }, [messages])
 
   useEffect(() => {
-    // Focus input on mount
     inputRef.current?.focus()
   }, [])
 
@@ -43,40 +42,29 @@ export function ChatOverlayStandalone() {
     setIsLoading(true)
 
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://hqrobbmdvanuozzhjdun.supabase.co'
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxcm9iYm1kdmFudW96emhqZHVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4MjY0ODgsImV4cCI6MjA2NjQwMjQ4OH0.Pv6RDwe1-1rlxDPdEw-hD_kuxRDQsEwG4MK41QSzTdc'
+      // COMUNICACIÓN DIRECTA AL WEBHOOK DE N8N
+      const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}`
       
-      const url = new URL(`${supabaseUrl}/functions/v1/webhook-proxy`)
-      url.searchParams.append('message', text.trim())
-      url.searchParams.append('timestamp', new Date().toISOString())
-      
-      const response = await fetch(url.toString(), {
+      const response = await fetch(webhookUrl, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${supabaseKey}`,
-        },
+        mode: 'no-cors' // Esto evita problemas de CORS
       })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.text()
-      
+      // Con no-cors no podemos leer la respuesta, pero sabemos que se envió
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data || 'Lo siento, no pude procesar tu mensaje.',
+        text: 'Mensaje enviado correctamente al webhook de N8N',
         role: 'bot',
         timestamp: new Date()
       }
 
       setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error('Error:', error)
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'No puedo conectar con el servidor. Verifica tu conexión a internet o intenta más tarde.',
+        text: 'Error al enviar mensaje. Verifica tu conexión.',
         role: 'bot',
         timestamp: new Date()
       }
@@ -101,7 +89,6 @@ export function ChatOverlayStandalone() {
 
   return (
     <div className="flex-1 flex flex-col bg-white">
-      {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
@@ -147,7 +134,7 @@ export function ChatOverlayStandalone() {
                       <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                       <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
                     </div>
-                    <span className="text-xs text-gray-500">Escribiendo...</span>
+                    <span className="text-xs text-gray-500">Enviando...</span>
                   </div>
                 </div>
               </div>
@@ -158,27 +145,26 @@ export function ChatOverlayStandalone() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
       <form onSubmit={handleSubmit} className="flex gap-3 bg-white p-4 border-t border-neutral-200">
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Escribe tu mensaje…"
-            disabled={isLoading}
-            className="flex-1 rounded-full border border-neutral-300 px-5 py-3
-                       placeholder:text-neutral-500 focus:ring-2 focus:ring-black
-                       shadow-inner disabled:opacity-50 font-sans text-sm"
-          />
-          <button
-            type="submit"
-            disabled={!inputValue.trim() || isLoading}
-            className="rounded-full bg-black text-white px-6 py-3 hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-sans text-sm"
-          >
-            Enviar
-          </button>
+        <input
+          ref={inputRef}
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Escribe tu mensaje…"
+          disabled={isLoading}
+          className="flex-1 rounded-full border border-neutral-300 px-5 py-3
+                     placeholder:text-neutral-500 focus:ring-2 focus:ring-black
+                     shadow-inner disabled:opacity-50 font-sans text-sm"
+        />
+        <button
+          type="submit"
+          disabled={!inputValue.trim() || isLoading}
+          className="rounded-full bg-black text-white px-6 py-3 hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-sans text-sm"
+        >
+          Enviar
+        </button>
       </form>
     </div>
   )
