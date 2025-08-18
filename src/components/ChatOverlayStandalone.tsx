@@ -52,6 +52,9 @@ export function ChatOverlayStandalone() {
           message: text.trim(),
           timestamp: new Date().toISOString()
         })
+          message: text.trim(),
+          timestamp: new Date().toISOString()
+        })
       })
 
       if (!response.ok) {
