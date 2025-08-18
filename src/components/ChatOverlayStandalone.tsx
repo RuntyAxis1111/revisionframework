@@ -43,12 +43,15 @@ export function ChatOverlayStandalone() {
     setIsLoading(true)
 
     try {
-      const url = new URL('/api/webhook', window.location.origin)
+      const url = new URL(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/webhook-proxy`)
       url.searchParams.append('message', text.trim())
       url.searchParams.append('timestamp', new Date().toISOString())
       
       const response = await fetch(url.toString(), {
         method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
       })
 
       if (!response.ok) {
