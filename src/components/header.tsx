@@ -24,8 +24,8 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
     { id: "artists", label: "ARTISTS" },
     { id: "palf", label: "PALF" },
     { id: "truvatos", label: "TRUVATOS" },
-    { id: "mmm", label: "MMM" },
     { id: "communities", label: "COMMUNITIES" },
+    { id: "mmm", label: "MMM" },
   ]
 
   const handleTabClick = (tabId: string) => {
@@ -62,11 +62,11 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
 
         <nav className="flex w-full h-8 relative">
           {tabs.map((tab, index) => (
-            <div key={tab.id} className="flex-1 relative flex justify-center items-center">
+            <div key={tab.id} className={`${tab.id === 'mmm' ? 'ml-auto' : 'flex-1'} relative flex justify-center items-center`}>
               <button
                 onClick={() => handleTabClick(tab.id)}
                 className={`
-                  w-full h-full font-bold text-sm uppercase transition-all duration-300 ease-out
+                  ${tab.id === 'mmm' ? 'px-8' : 'w-full'} h-full font-bold text-sm uppercase transition-all duration-300 ease-out
                   transform hover:scale-105
                   ${
                     activeTab === tab.id
@@ -75,7 +75,7 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
                   }
                 `}
                 style={{
-                  clipPath: index < tabs.length - 1 ? "polygon(0 0, calc(100% - 15px) 0, 100% 100%, 0 100%)" : "none",
+                  clipPath: index < tabs.length - 1 && tab.id !== 'mmm' ? "polygon(0 0, calc(100% - 15px) 0, 100% 100%, 0 100%)" : "none",
                   marginRight: index < tabs.length - 1 ? "-15px" : "0",
                   zIndex: index + 1,
                 }}

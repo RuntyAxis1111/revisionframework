@@ -54,17 +54,17 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
       : null
 
   const renderMMMContent = () => (
-    <div className="flex-1 overflow-y-auto p-8 bg-white">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="flex-1 overflow-y-auto bg-white px-6 py-8 md:px-6">
+      <div className="space-y-8">
         {/* Header */}
         <header>
-          <h1 className="text-3xl font-bold text-black mb-2" aria-labelledby="mmm-title">
+          <h1 id="mmm-title" className="text-3xl font-bold text-black mb-2">
             Robyn – Marketing-Mix Model
           </h1>
         </header>
 
         {/* ¿Qué es? Section */}
-        <section aria-labelledby="que-es-section">
+        <section id="que-es" aria-labelledby="que-es-section">
           <h2 id="que-es-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Qué es?
           </h2>
@@ -122,7 +122,7 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
         </section>
 
         {/* ¿Cómo lo estamos usando? Section */}
-        <section aria-labelledby="como-usamos-section">
+        <section id="como-lo-usamos" aria-labelledby="como-usamos-section">
           <h2 id="como-usamos-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Cómo lo estamos usando?
           </h2>
@@ -186,17 +186,13 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
   )
 
   return (
-    <div className="p-4 h-[calc(100vh-4rem)]">
-      <div className="w-full h-full bg-white border-2 border-black rounded-lg overflow-hidden shadow-lg flex flex-col">
+    <div className={activeTab === "mmm" ? "h-[calc(100vh-4rem)] bg-white" : "p-4 h-[calc(100vh-4rem)]"}>
+      {activeTab === "mmm" ? (
+        renderMMMContent()
+      ) : (
+        <div className="w-full h-full bg-white border-2 border-black rounded-lg overflow-hidden shadow-lg flex flex-col">
         {activeTab === "artists" ? (
           <ArtistPanel artist={selectedArtist} />
-        ) : activeTab === "mmm" ? (
-          <>
-            <div className="bg-black text-white p-3 flex justify-between items-center flex-shrink-0 h-16">
-              <span className="font-bold uppercase">ROBYN MMM – MARKETING-MIX MODEL</span>
-            </div>
-            {renderMMMContent()}
-          </>
         ) : reportUrl ? (
           <>
             <div className="bg-black text-white p-3 flex justify-between items-center flex-shrink-0 h-16">
@@ -229,6 +225,7 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           </div>
         )}
       </div>
+      )}
     </div>
   )
 }
