@@ -43,15 +43,12 @@ export function ChatOverlayStandalone() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: text.trim(),
-          timestamp: new Date().toISOString()
-        }),
+      const url = new URL('https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48')
+      url.searchParams.append('message', text.trim())
+      url.searchParams.append('timestamp', new Date().toISOString())
+      
+      const response = await fetch(url.toString(), {
+        method: 'GET',
       })
 
       if (!response.ok) {
