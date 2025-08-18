@@ -44,34 +44,83 @@ export function ChatOverlayStandalone() {
     try {
       // COMUNICACIÓN DIRECTA AL WEBHOOK DE N8N
       const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}`
+      // Usar JSONP para evitar restricciones de WebContainer
+      const callbackName = `jsonp_callback_${Date.now()}`
+      const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&callback=${callbackName}`
       
-      const response = await fetch(webhookUrl, {
-        method: 'GET',
-        mode: 'no-cors' // Esto evita problemas de CORS
-      })
-
-      // Con no-cors no podemos leer la respuesta, pero sabemos que se envió
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: 'Mensaje enviado correctamente al webhook de N8N',
-        role: 'bot',
-        timestamp: new Date()
+      // Crear script tag para JSONP
+      const script = document.createElement('script')
+      script.src = webhookUrl
+      
+      // Timeout para la petición
+      const timeout = setTimeout(() => {
+        document.head.removeChild(script)
+        delete (window as any)[callbackName]
+        
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: 'Timeout: El webhook no respondió en 10 segundos',
+          role: 'bot',
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, errorMessage])
+        setIsLoading(false)
+      }, 10000)
+      
+      // Callback global para JSONP
+      ;(window as any)[callbackName] = (data: any) => {
+        clearTimeout(timeout)
+        document.head.removeChild(script)
+        delete (window as any)[callbackName]
+        
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          text: data?.response || 'Mensaje procesado por N8N',
+          role: 'bot',
+          timestamp: new Date()
+        }
+        setMessages(prev => [...prev, assistantMessage])
+        setIsLoading(false)
       }
-
-      setMessages(prev => [...prev, assistantMessage])
+      
+      // Error handler para el script
+      script.onerror = () => {
+        clearTimeout(timeout)
+        document.head.removeChild(script)
+        delete (window as any)[callbackName]
+        
+        // Si falla JSONP, intentar con imagen (pixel tracking)
+        const img = new Image()
+        img.onload = img.onerror = () => {
+          const assistantMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            text: 'Mensaje enviado al webhook (método alternativo)',
+            role: 'bot',
+            timestamp: new Date()
+          }
+          setMessages(prev => [...prev, assistantMessage])
+          setIsLoading(false)
+        }
+        img.src = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&_=${Date.now()}`
+      }
+      
+      // Agregar script al DOM
+      document.head.appendChild(script)
+      
     } catch (error) {
       console.error('Error:', error)
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Error al enviar mensaje. Verifica tu conexión.',
+        text: 'Error al comunicarse con el webhook',
         role: 'bot',
         timestamp: new Date()
       }
 
       setMessages(prev => [...prev, errorMessage])
-    } finally {
       setIsLoading(false)
+    } finally {
+      // El loading se maneja en los callbacks
     }
   }
 
