@@ -52,13 +52,7 @@ export function ChatOverlayStandalone() {
       })
 
       if (!response.ok) {
-        const errorText = await response.text()
-        console.error('Webhook error details:', {
-          status: response.status,
-          statusText: response.statusText,
-          body: errorText
-        })
-        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`)
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
       const data = await response.text()
@@ -72,16 +66,7 @@ export function ChatOverlayStandalone() {
 
       setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
-      console.error('Error sending message to webhook:', error)
-      
-      // Diagnóstico detallado del error
-      if (error instanceof TypeError && error.message === 'Failed to fetch') {
-        console.error('CORS or Network Error - Possible causes:')
-        console.error('1. CORS policy blocking the request')
-        console.error('2. Network connectivity issues') 
-        console.error('3. Webhook URL not accessible')
-        console.error('4. N8N service down')
-      }
+      console.error('Error sending message:', error)
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
