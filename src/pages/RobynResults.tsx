@@ -47,7 +47,7 @@ export default function RobynResults() {
             </div>
             
             <p className="text-sm text-gray-600">
-              Estimación: ~22 min restantes. Esta barra se actualiza cada 30 s.
+              Estimación: ~7 días restantes. Esta barra se actualiza cada 30 s.
             </p>
           </section>
 
