@@ -47,13 +47,11 @@ export function ChatOverlayStandalone() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
         body: JSON.stringify({
           message: text.trim(),
           timestamp: new Date().toISOString()
         }),
-        mode: 'cors'
       })
 
       if (!response.ok) {
@@ -79,9 +77,18 @@ export function ChatOverlayStandalone() {
     } catch (error) {
       console.error('Error sending message to webhook:', error)
       
+      // Diagnóstico detallado del error
+      if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        console.error('CORS or Network Error - Possible causes:')
+        console.error('1. CORS policy blocking the request')
+        console.error('2. Network connectivity issues') 
+        console.error('3. Webhook URL not accessible')
+        console.error('4. N8N service down')
+      }
+      
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, inténtalo de nuevo.',
+        text: 'No puedo conectar con el servidor. Verifica tu conexión a internet o intenta más tarde.',
         role: 'bot',
         timestamp: new Date()
       }
