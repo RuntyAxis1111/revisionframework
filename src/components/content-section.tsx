@@ -68,27 +68,63 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <h2 id="que-es-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Qué es?
           </h2>
-          <p className="text-gray-700 mb-6 leading-relaxed">
-            Robyn es un modelo de <em>Marketing-Mix</em> open-source (creado por Meta) que estima qué tanto aporta cada canal a nuestro KPI (ventas, streams, etc.) y sugiere cómo redistribuir presupuesto para maximizar ROI.
+          <p className="text-gray-700 mb-8 leading-relaxed">
+            Robyn es un <strong>modelo de Marketing-Mix open-source</strong> desarrollado por Meta. Estima la contribución real de cada canal de marketing a un KPI (ventas, streams, leads) y, además, sugiere el reparto de presupuesto que maximiza tu retorno.
           </p>
-            {/* Robyn en 3 ideas clave */}
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-black mb-4">
-                Robyn en 3 ideas clave
-              </h3>
-              <ul className="list-disc ml-6 space-y-1 text-gray-700">
-                <li>
-                  <strong>Modelo causal</strong>: estima la contribución real de cada canal de marketing a KPI (ventas, streams, etc.).
-                </li>
-                <li>
-                  <strong>Optimización de presupuesto</strong>: simula miles de combinaciones para sugerir el mix con mayor ROI.
-                </li>
-                <li>
-                  <strong>Open-source & transparente</strong>: puedes auditar todos los supuestos y reproducir resultados.
-                </li>
-              </ul>
-            </div>
 
+          <h3 className="text-xl font-semibold text-black mt-10 mb-4">1. Concepto</h3>
+          <ul className="list-disc ml-6 space-y-2 text-gray-700">
+            <li>
+              <strong>Regresión ridge + GA optimization</strong>: prueba miles de combinaciones de adstock y saturación para hallar el ajuste con mejor R<sup>2</sup>.
+            </li>
+            <li>
+              <strong>Análisis incremental</strong>: separa la «marea base» (tendencias y estacionalidad) del impacto de cada gasto publicitario.
+            </li>
+            <li>
+              <strong>Explainable</strong>: expone hiper-parámetros y métricas de error para auditar cada corrida.
+            </li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-black mt-10 mb-4">2. ¿Cómo funciona?</h3>
+          <ol className="list-decimal ml-6 space-y-2 text-gray-700">
+            <li>
+              <em>Input</em>: mínimo 104 semanas de KPI + inversión por canal + variables de control (feriados, precio dólar).
+            </li>
+            <li>
+              <em>Modelado</em>: genera &gt;10 000 modelos; selecciona el óptimo con NSGA-II (trade-off entre error y complejidad).
+            </li>
+            <li>
+              <em>Outputs</em>: ROI, curvas de saturación, adstock half-life, recomendación de presupuesto y serie de tendencia.
+            </li>
+          </ol>
+
+          <h3 className="text-xl font-semibold text-black mt-10 mb-4">3. ¿Por qué nos sirve en HYBE?</h3>
+          <ul className="list-disc ml-6 space-y-2 text-gray-700">
+            <li>
+              <strong>Optimizar campañas</strong>: mover budget ~15-20 % hacia canales con ROI alto.
+            </li>
+            <li>
+              <strong>Alertas tempranas</strong>: detector de inflexiones de tendencia para reaccionar a hype o crisis.
+            </li>
+            <li>
+              <strong>Cero lock-in</strong>: al ser open-source, controlamos datos, lógica y costos.
+            </li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-black mt-10 mb-4">4. Limitaciones a considerar</h3>
+          <ul className="list-disc ml-6 space-y-2 text-gray-700">
+            <li>
+              Requiere datos limpios y continuos; huecos &gt; 8 sem deforman resultados.
+            </li>
+            <li>
+              No reemplaza experimentos A/B para causalidad perfecta.
+            </li>
+            <li>
+              Carga computacional alta: una corrida completa puede tardar 30-60 min.
+            </li>
+          </ul>
+
+          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
           
           {/* Tabla de ejemplo */}
           <div className="overflow-x-auto mb-4">
@@ -137,6 +173,17 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <p className="text-sm text-gray-500 italic">
             *Datos ficticios para ilustración.
           </p>
+
+          {/* CTA Section */}
+          <section className="text-center py-8">
+            <a
+              href="/mmm/results"
+              className="inline-block bg-black text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+              aria-label="Ver resultados del modelo Robyn MMM"
+            >
+              Ver resultados del modelo
+            </a>
+          </section>
         </section>
       </div>
     </div>
@@ -206,9 +253,7 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
             ))}
           </div>
 
-
-
-
+        </section>
 
         {/* CTA Section */}
         <section className="text-center py-8">
