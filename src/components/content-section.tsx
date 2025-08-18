@@ -88,7 +88,7 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <h3 className="text-xl font-semibold text-black mt-10 mb-4">2. ¿Cómo funciona?</h3>
           <ol className="list-decimal ml-6 space-y-2 text-gray-700">
             <li>
-              <em>Input</em>: mínimo 104 semanas de KPI + inversión por canal + variables de control (feriados, precio dólar).
+              <em>Input</em>: (Min 32) se recomiendan 104 semanas de datos sobre los KPI + inversión por canal + variables de control (feriados, precio dólar).
             </li>
             <li>
               <em>Modelado</em>: genera &gt;10 000 modelos; selecciona el óptimo con NSGA-II (trade-off entre error y complejidad).
