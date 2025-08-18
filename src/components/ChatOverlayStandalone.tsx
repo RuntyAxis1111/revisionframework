@@ -30,6 +30,10 @@ export function ChatOverlayStandalone() {
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return
 
+    // Usar JSONP para evitar restricciones de WebContainer
+    const callbackName = `jsonp_callback_${Date.now()}`
+    const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&callback=${callbackName}`
+
     const userMessage: Message = {
       id: Date.now().toString(),
       text: text.trim(),
@@ -41,10 +45,6 @@ export function ChatOverlayStandalone() {
     setInputValue('')
     setIsLoading(true)
 
-    try {
-      // COMUNICACIÓN DIRECTA AL WEBHOOK DE N8N
-      const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&callback=${callbackName}`
-      
       // Crear script tag para JSONP
       const script = document.createElement('script')
       script.src = webhookUrl
