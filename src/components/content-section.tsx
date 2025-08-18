@@ -53,7 +53,7 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
       ? data.artists.find((a: any) => a.id === selectedItem.id)
       : null
 
-  const renderMMMContent = () => (
+  const renderQueEsContent = () => (
     <div className="flex-1 overflow-y-auto bg-white px-6 py-8 md:px-6">
       <div className="space-y-8">
         {/* Header */}
@@ -62,10 +62,8 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
             Robyn – Marketing-Mix Model
           </h1>
         </header>
-          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
 
 
-          <section id="que-es" aria-labelledby="que-es-section" className="mt-12 md:mt-16">
         <section id="que-es" aria-labelledby="que-es-section">
           <h2 id="que-es-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Qué es?
@@ -140,18 +138,28 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
             *Datos ficticios para ilustración.
           </p>
         </section>
-          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
+      </div>
+    </div>
+  )
 
+  const renderComoLoUsamosContent = () => (
+    <div className="flex-1 overflow-y-auto bg-white px-6 py-8 md:px-6">
+      <div className="space-y-8">
+        {/* Header */}
+        <header>
+          <h1 id="mmm-title" className="text-3xl font-bold text-black mb-2">
+            Robyn – Marketing-Mix Model
+          </h1>
+        </header>
 
-          <section id="como-lo-usamos" aria-labelledby="como-usamos-section" className="mt-16 md:mt-20">
         <section id="como-lo-usamos" aria-labelledby="como-usamos-section">
           <h2 id="como-usamos-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Cómo lo estamos usando?
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              Estamos implementando Robyn como <strong>motor analítico central</strong> del Data Hub.
-              A continuación se detalla el flujo operativo:
-            </p>
           </h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">
+            Estamos implementando Robyn como <strong>motor analítico central</strong> del Data Hub.
+            A continuación se detalla el flujo operativo:
+          </p>
           <ol className="list-decimal list-inside space-y-3 text-gray-700 mb-6">
             <li className="leading-relaxed">
               Extraemos métricas semanales de cada red social y gasto publicitario.
@@ -166,8 +174,8 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
               Los resultados (ROI, curvas y recomendación de presupuesto) se publican en el sub-tab "Resultados".
             </li>
           </ol>
-            <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
 
+          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
 
           {/* Datasets Section */}
           <h3 className="text-xl font-bold text-black mb-4">
@@ -197,7 +205,10 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
               </div>
             ))}
           </div>
-        </section>
+
+
+
+
 
         {/* CTA Section */}
         <section className="text-center py-8">
@@ -212,6 +223,22 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
       </div>
     </div>
   )
+
+  const renderMMMContent = () => {
+    if (!selectedItem || selectedItem.type !== "mmm-section") {
+      return renderQueEsContent() // Default to "¿Qué es?" when no section is selected
+    }
+
+    if (selectedItem.id === "que-es") {
+      return renderQueEsContent()
+    }
+
+    if (selectedItem.id === "como-lo-usamos") {
+      return renderComoLoUsamosContent()
+    }
+
+    return renderQueEsContent() // Fallback
+  }
 
   return (
     <div className={activeTab === "mmm" ? "h-[calc(100vh-4rem)] bg-white" : "p-4 h-[calc(100vh-4rem)]"}>
@@ -240,8 +267,6 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <div className="w-full h-full flex items-center justify-center">
             <video
               autoPlay
-          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
-
               loop
               muted
               playsInline

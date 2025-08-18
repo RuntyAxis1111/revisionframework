@@ -427,10 +427,10 @@ export function HoverMenu({ tabId, data, onItemSelect, onClose }: HoverMenuProps
 
         <ul className="list-none p-0 m-0 relative z-10">
           <li role="menuitem">
-            <a
-              href="#que-es"
+            <button
+              onClick={() => handleItemClick("que-es", "mmm-section")}
               className={`
-                block py-3 px-3 font-bold uppercase text-black border-b border-black/10 
+                w-full text-left py-3 px-3 font-bold uppercase text-black border-b border-black/10 
                 hover:bg-gradient-to-r hover:from-black/5 hover:to-black/10 
                 transition-all duration-200 ease-out rounded-md
                 transform hover:translate-x-2 hover:scale-105
@@ -446,13 +446,13 @@ export function HoverMenu({ tabId, data, onItemSelect, onClose }: HoverMenuProps
                 <span className="w-2 h-2 bg-black rounded-full mr-3 transform scale-0 group-hover:scale-100 transition-transform duration-150" />
                 ¿Qué es?
               </span>
-            </a>
+            </button>
           </li>
           <li role="menuitem">
-            <a
-              href="#como-lo-usamos"
+            <button
+              onClick={() => handleItemClick("como-lo-usamos", "mmm-section")}
               className={`
-                block py-3 px-3 font-bold uppercase text-black
+                w-full text-left py-3 px-3 font-bold uppercase text-black
                 hover:bg-gradient-to-r hover:from-black/5 hover:to-black/10 
                 transition-all duration-200 ease-out rounded-md
                 transform hover:translate-x-2 hover:scale-105
@@ -468,7 +468,7 @@ export function HoverMenu({ tabId, data, onItemSelect, onClose }: HoverMenuProps
                 <span className="w-2 h-2 bg-black rounded-full mr-3 transform scale-0 group-hover:scale-100 transition-transform duration-150" />
                 ¿Cómo lo estamos usando?
               </span>
-            </a>
+            </button>
           </li>
         </ul>
       </div>
