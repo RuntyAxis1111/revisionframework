@@ -43,14 +43,17 @@ export function ChatOverlayStandalone() {
     setIsLoading(true)
 
     try {
-      const url = new URL(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/webhook-proxy`)
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://hqrobbmdvanuozzhjdun.supabase.co'
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxcm9iYm1kdmFudW96emhqZHVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4MjY0ODgsImV4cCI6MjA2NjQwMjQ4OH0.Pv6RDwe1-1rlxDPdEw-hD_kuxRDQsEwG4MK41QSzTdc'
+      
+      const url = new URL(`${supabaseUrl}/functions/v1/webhook-proxy`)
       url.searchParams.append('message', text.trim())
       url.searchParams.append('timestamp', new Date().toISOString())
       
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Authorization': `Bearer ${supabaseKey}`,
         },
       })
 
