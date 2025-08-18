@@ -32,7 +32,7 @@ export function ChatOverlayStandalone() {
 
     // Usar JSONP para evitar restricciones de WebContainer
     const callbackName = `jsonp_callback_${Date.now()}`
-    const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&callback=${callbackName}`
+    const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&callback=${callbackName}`
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -45,6 +45,7 @@ export function ChatOverlayStandalone() {
     setInputValue('')
     setIsLoading(true)
 
+    try {
       // Crear script tag para JSONP
       const script = document.createElement('script')
       script.src = webhookUrl
