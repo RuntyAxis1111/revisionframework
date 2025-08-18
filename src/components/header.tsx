@@ -24,6 +24,7 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
     { id: "artists", label: "ARTISTS" },
     { id: "palf", label: "PALF" },
     { id: "truvatos", label: "TRUVATOS" },
+    { id: "mmm", label: "MMM" },
     { id: "communities", label: "COMMUNITIES" },
   ]
 

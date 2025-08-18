@@ -400,6 +400,51 @@ export function HoverMenu({ tabId, data, onItemSelect, onClose }: HoverMenuProps
     )
   }
 
+  if (tabId === "mmm") {
+    return (
+      <div
+        className={`
+        absolute top-full left-1/2 transform -translate-x-1/2 bg-white border-2 border-black shadow-2xl p-6 z-40 min-w-56
+        transition-all duration-300 ease-out backdrop-blur-sm
+        ${isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-4 scale-95"}
+        before:content-[''] before:absolute before:-top-2 before:left-1/2 before:transform before:-translate-x-1/2
+        before:w-4 before:h-4 before:bg-white before:border-l-2 before:border-t-2 before:border-black
+        before:rotate-45 before:z-10
+        rounded-lg overflow-visible
+      `}
+        style={{
+          background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none" />
+
+        <ul className="list-none p-0 m-0 relative z-10">
+          <li
+            onClick={() => handleItemClick("overview", "mmm-overview")}
+            className={`
+              py-3 px-3 cursor-pointer font-bold uppercase text-black border-b border-black/10 last:border-b-0 
+              hover:bg-gradient-to-r hover:from-black/5 hover:to-black/10 
+              transition-all duration-200 ease-out rounded-md mx-1
+              transform hover:translate-x-2 hover:scale-105
+              ${isVisible ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}
+              relative overflow-hidden group
+            `}
+            style={{
+              transitionDelay: "0ms",
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/5 transform translate-x-full group-hover:translate-x-0 transition-transform duration-200" />
+            <span className="relative z-10 flex items-center">
+              <span className="w-2 h-2 bg-black rounded-full mr-3 transform scale-0 group-hover:scale-100 transition-transform duration-150" />
+              OVERVIEW
+            </span>
+          </li>
+        </ul>
+      </div>
+    )
+  }
+
   if (tabId === "communities") {
     return (
       <div
