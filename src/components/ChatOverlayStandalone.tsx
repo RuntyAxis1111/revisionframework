@@ -43,7 +43,7 @@ export function ChatOverlayStandalone() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('https://runtyaxis.app.n8n.cloud/webhook/d65901ce-ecad-4459-bc98-6deb34f5ea48', {
+      const response = await fetch('/api/n8n/webhook/d65901ce-ecad-4459-bc98-6deb34f5ea48', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
