@@ -43,7 +43,7 @@ export function ChatOverlayStandalone() {
     setIsLoading(true)
 
     try {
-      const url = new URL('https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48')
+      const url = new URL('/api/webhook', window.location.origin)
       url.searchParams.append('message', text.trim())
       url.searchParams.append('timestamp', new Date().toISOString())
       
