@@ -55,7 +55,13 @@ export function ChatOverlayStandalone() {
       })
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        const errorText = await response.text()
+        console.error('Webhook error details:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText
+        })
+        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`)
       }
 
       const data = await response.text()
@@ -69,7 +75,7 @@ export function ChatOverlayStandalone() {
 
       setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error('Error sending message to webhook:', error)
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
