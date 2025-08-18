@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 // import { AccessDenied } from "./components/access-denied"
 import { Dashboard } from "./components/dashboard"
 import Assistant from './pages/Assistant'
+import RobynResults from './pages/RobynResults'
 
 export default function App() {
   // const { user, loading } = useAuth()
@@ -39,6 +40,7 @@ export default function App() {
         element={<Dashboard key={location.state?.activeTab || 'default'} />} 
       />
       <Route path="/assistant" element={<Assistant />} />
+      <Route path="/mmm/results" element={<RobynResults />} />
     </Routes>
   )
 }

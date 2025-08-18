@@ -178,6 +178,10 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <section className="text-center py-8">
             <a
               href="/mmm/results"
+              onClick={(e) => {
+                e.preventDefault()
+                window.location.href = '/mmm/results'
+              }}
               className="inline-block bg-black text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               aria-label="Ver resultados del modelo Robyn MMM"
             >
@@ -259,6 +263,10 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
         <section className="text-center py-8">
           <a
             href="/mmm/results"
+            onClick={(e) => {
+              e.preventDefault()
+              window.location.href = '/mmm/results'
+            }}
             className="inline-block bg-black text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
             aria-label="Ver resultados del modelo Robyn MMM"
           >
