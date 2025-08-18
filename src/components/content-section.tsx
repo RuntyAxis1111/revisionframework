@@ -62,8 +62,10 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
             Robyn – Marketing-Mix Model
           </h1>
         </header>
+          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
 
-        {/* ¿Qué es? Section */}
+
+          <section id="que-es" aria-labelledby="que-es-section" className="mt-12 md:mt-16">
         <section id="que-es" aria-labelledby="que-es-section">
           <h2 id="que-es-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Qué es?
@@ -71,6 +73,24 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <p className="text-gray-700 mb-6 leading-relaxed">
             Robyn es un modelo de <em>Marketing-Mix</em> open-source (creado por Meta) que estima qué tanto aporta cada canal a nuestro KPI (ventas, streams, etc.) y sugiere cómo redistribuir presupuesto para maximizar ROI.
           </p>
+            {/* Robyn en 3 ideas clave */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-black mb-4">
+                Robyn en 3 ideas clave
+              </h3>
+              <ul className="list-disc ml-6 space-y-1 text-gray-700">
+                <li>
+                  <strong>Modelo causal</strong>: estima la contribución real de cada canal de marketing a KPI (ventas, streams, etc.).
+                </li>
+                <li>
+                  <strong>Optimización de presupuesto</strong>: simula miles de combinaciones para sugerir el mix con mayor ROI.
+                </li>
+                <li>
+                  <strong>Open-source & transparente</strong>: puedes auditar todos los supuestos y reproducir resultados.
+                </li>
+              </ul>
+            </div>
+
           
           {/* Tabla de ejemplo */}
           <div className="overflow-x-auto mb-4">
@@ -120,11 +140,17 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
             *Datos ficticios para ilustración.
           </p>
         </section>
+          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
 
-        {/* ¿Cómo lo estamos usando? Section */}
+
+          <section id="como-lo-usamos" aria-labelledby="como-usamos-section" className="mt-16 md:mt-20">
         <section id="como-lo-usamos" aria-labelledby="como-usamos-section">
           <h2 id="como-usamos-section" className="text-2xl font-bold text-black mb-4 border-b-2 border-black pb-2">
             ¿Cómo lo estamos usando?
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              Estamos implementando Robyn como <strong>motor analítico central</strong> del Data Hub.
+              A continuación se detalla el flujo operativo:
+            </p>
           </h2>
           <ol className="list-decimal list-inside space-y-3 text-gray-700 mb-6">
             <li className="leading-relaxed">
@@ -140,6 +166,8 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
               Los resultados (ROI, curvas y recomendación de presupuesto) se publican en el sub-tab "Resultados".
             </li>
           </ol>
+            <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
+
 
           {/* Datasets Section */}
           <h3 className="text-xl font-bold text-black mb-4">
@@ -212,6 +240,8 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <div className="w-full h-full flex items-center justify-center">
             <video
               autoPlay
+          <hr className="my-12 border-t-2 border-gray-200" role="presentation" />
+
               loop
               muted
               playsInline
