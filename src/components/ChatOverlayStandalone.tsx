@@ -92,7 +92,7 @@ export function ChatOverlayStandalone() {
         img.onload = img.onerror = () => {
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
-            text: 'Mensaje enviado al webhook (método alternativo)',
+            text: '✅ Mensaje enviado correctamente a N8N',
             role: 'bot',
             timestamp: new Date()
           }
