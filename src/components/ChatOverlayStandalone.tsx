@@ -48,7 +48,7 @@ export function ChatOverlayStandalone() {
     try {
       // Crear script tag para JSONP
       const script = document.createElement('script')
-      script.src = webhookUrl
+      const webhookUrl = `https://runtyaxis.app.n8n.cloud/webhook/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&callback=${callbackName}`
       
       // Timeout para la petición
       const timeout = setTimeout(() => {
@@ -92,14 +92,14 @@ export function ChatOverlayStandalone() {
         img.onload = img.onerror = () => {
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
-            text: '✅ Mensaje enviado correctamente a N8N',
+            text: '✅ Mensaje enviado correctamente al webhook de N8N',
             role: 'bot',
             timestamp: new Date()
           }
           setMessages(prev => [...prev, assistantMessage])
           setIsLoading(false)
         }
-        img.src = `https://runtyaxis.app.n8n.cloud/webhook-test/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&_=${Date.now()}`
+        img.src = `https://runtyaxis.app.n8n.cloud/webhook/d65901ce-ecad-4459-bc98-6deb34f5ea48?message=${encodeURIComponent(text.trim())}&timestamp=${encodeURIComponent(new Date().toISOString())}&_=${Date.now()}`
       }
       
       // Agregar script al DOM
