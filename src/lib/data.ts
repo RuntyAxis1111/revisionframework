@@ -100,6 +100,19 @@ export const data = {
   },
   stbv: [
     {
+      id: "facebook",
+      name: "FACEBOOK",
+      icon: "Facebook",
+      stbvReportUrl:
+        "https://lookerstudio.google.com/embed/reporting/f430c83b-dfb1-423f-85d3-2e0e1b34e052/page/gnpEF",
+    },
+    {
+      id: "youtube",
+      name: "YOUTUBE",
+      icon: "YouTube",
+      stbvReportUrl: null, // Pendiente
+    },
+    {
       id: "twitter",
       name: "X (TWITTER)",
       icon: "X",
@@ -114,24 +127,11 @@ export const data = {
         "https://lookerstudio.google.com/embed/reporting/db511cf8-aafa-47ff-aaed-e38b77219a36/page/p_u876dxgudd",
     },
     {
-      id: "youtube",
-      name: "YOUTUBE",
-      icon: "YouTube",
-      stbvReportUrl: null, // Pendiente
-    },
-    {
       id: "tiktok",
       name: "TIKTOK (WORKING)",
       icon: "TikTok",
       stbvReportUrl:
         "https://lookerstudio.google.com/embed/reporting/2ebf19ce-8077-497b-ae8f-580d274d0a17/page/gnpEF",
-    },
-    {
-      id: "facebook",
-      name: "FACEBOOK",
-      icon: "Facebook",
-      stbvReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/f430c83b-dfb1-423f-85d3-2e0e1b34e052/page/gnpEF",
     },
   ],
   communities: {
