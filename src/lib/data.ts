@@ -124,7 +124,7 @@ export const data = {
       id: "youtube",
       name: "YOUTUBE",
       icon: "YouTube",
-      stbvReportUrl: null, // Pendiente
+      stbvReportUrl: "https://lookerstudio.google.com/embed/reporting/ff8cc1bd-0cae-440e-bb25-ca3c5eb76722/page/p_u876dxgudd",
     },
     {
       id: "instagram",
