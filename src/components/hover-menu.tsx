@@ -345,7 +345,7 @@ export function HoverMenu({ tabId, data, onItemSelect, onClose }: HoverMenuProps
     )
   }
 
-  if (tabId === "truvatos") {
+  if (tabId === "stbv") {
     return (
       <div
         className={`
@@ -365,10 +365,10 @@ export function HoverMenu({ tabId, data, onItemSelect, onClose }: HoverMenuProps
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none" />
 
         <ul className="list-none p-0 m-0 relative z-10">
-          {data.truvatos.map((social: any, index: number) => (
+          {data.stbv.map((social: any, index: number) => (
             <li
               key={social.id}
-              onClick={() => handleItemClick(social.id, "truvatos-social")}
+              onClick={() => handleItemClick(social.id, "stbv-social")}
               className={`
                 py-3 px-3 cursor-pointer font-bold uppercase text-black border-b border-black/10 last:border-b-0 
                 hover:bg-gradient-to-r hover:from-black/5 hover:to-black/10 

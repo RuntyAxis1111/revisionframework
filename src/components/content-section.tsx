@@ -25,12 +25,12 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
 
     if (type === "palf-band-social") {
       const social = data.palf.socialMedia.find((s: any) => s.id === socialId)
-      return social?.palfReportUrl || data.truvatos[0]?.truvatosReportUrl || null
+      return social?.palfReportUrl || data.stbv[0]?.stbvReportUrl || null
     }
 
-    if (type === "truvatos-social") {
-      const social = data.truvatos.find((s: any) => s.id === id)
-      return social?.truvatosReportUrl || null
+    if (type === "stbv-social") {
+      const social = data.stbv.find((s: any) => s.id === id)
+      return social?.stbvReportUrl || null
     }
 
     if (type === "community-social") {

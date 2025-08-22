@@ -98,48 +98,40 @@ export const data = {
       },
     ],
   },
-  truvatos: [
+  stbv: [
     {
       id: "twitter",
       name: "X (TWITTER)",
       icon: "X",
-      truvatosReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/b4a8cec2-b9a5-4db4-8370-c9594f08c39d/page/gnpEF",
+      stbvReportUrl:
+        "https://lookerstudio.google.com/embed/reporting/ef2c8cf0-a9cc-440d-8221-879468f15143/page/p_u876dxgudd",
     },
     {
       id: "instagram",
       name: "INSTAGRAM",
       icon: "Instagram",
-      truvatosReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/b4a8cec2-b9a5-4db4-8370-c9594f08c39d/page/gnpEF",
+      stbvReportUrl:
+        "https://lookerstudio.google.com/embed/reporting/db511cf8-aafa-47ff-aaed-e38b77219a36/page/p_u876dxgudd",
     },
     {
       id: "youtube",
       name: "YOUTUBE",
       icon: "YouTube",
-      truvatosReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/b4a8cec2-b9a5-4db4-8370-c9594f08c39d/page/gnpEF",
+      stbvReportUrl: null, // Pendiente
     },
     {
       id: "tiktok",
       name: "TIKTOK (WORKING)",
       icon: "TikTok",
-      truvatosReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/b4a8cec2-b9a5-4db4-8370-c9594f08c39d/page/gnpEF",
-    },
-    {
-      id: "public-relations",
-      name: "PUBLIC RELATIONS",
-      icon: "Public Relations",
-      truvatosReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/b4a8cec2-b9a5-4db4-8370-c9594f08c39d/page/gnpEF",
+      stbvReportUrl:
+        "https://lookerstudio.google.com/embed/reporting/2ebf19ce-8077-497b-ae8f-580d274d0a17/page/gnpEF",
     },
     {
       id: "facebook",
       name: "FACEBOOK",
       icon: "Facebook",
-      truvatosReportUrl:
-        "https://lookerstudio.google.com/embed/reporting/b4a8cec2-b9a5-4db4-8370-c9594f08c39d/page/gnpEF",
+      stbvReportUrl:
+        "https://lookerstudio.google.com/embed/reporting/f430c83b-dfb1-423f-85d3-2e0e1b34e052/page/gnpEF",
     },
   ],
   communities: {
