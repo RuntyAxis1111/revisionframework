@@ -7,6 +7,8 @@ interface AuthContextType {
   session: Session | null
   loading: boolean
   signInWithGoogle: () => Promise<void>
+  signInWithEmail: (email: string, password: string) => Promise<{ error?: string }>
+  signUp: (email: string, password: string) => Promise<{ error?: string }>
   signOut: () => Promise<void>
 }
 
@@ -61,6 +63,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const signInWithEmail = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    if (error) {
+      return { error: error.message }
+    }
+    return {}
+  }
+
+  const signUp = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: window.location.origin,
+      },
+    })
+    if (error) {
+      return { error: error.message }
+    }
+    return {}
+  }
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
     if (error) {
@@ -73,6 +100,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     session,
     loading,
     signInWithGoogle,
+    signInWithEmail,
+    signUp,
     signOut,
   }
 

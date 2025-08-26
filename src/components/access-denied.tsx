@@ -29,7 +29,7 @@ export function AccessDenied() {
           </h1>
           
           <p className="text-gray-600">
-            Acceso permitido únicamente para correos @hybecorp.com
+            Acceso permitido para empleados @hybecorp.com o cuentas de invitado confirmadas
           </p>
         </div>
 

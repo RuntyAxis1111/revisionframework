@@ -1,8 +1,44 @@
 import React from 'react'
+import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
 export function SignInPage() {
-  const { signInWithGoogle } = useAuth()
+  const { signInWithGoogle, signInWithEmail, signUp } = useAuth()
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+
+  const handleEmailAuth = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setMessage('')
+
+    try {
+      if (isSignUp) {
+        const { error } = await signUp(email, password)
+        if (error) {
+          setError(error)
+        } else {
+          setMessage('¡Registro exitoso! Revisa tu email para confirmar tu cuenta.')
+          setEmail('')
+          setPassword('')
+        }
+      } else {
+        const { error } = await signInWithEmail(email, password)
+        if (error) {
+          setError(error)
+        }
+      }
+    } catch (err) {
+      setError('Error inesperado. Intenta de nuevo.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">
@@ -15,11 +51,12 @@ export function SignInPage() {
             DATA HUB
           </h2>
           <p className="text-gray-600 mb-8">
-            Accede con tu cuenta de Google corporativa
+            Accede con tu cuenta corporativa o como invitado
           </p>
         </div>
 
         <div className="space-y-4">
+          {/* Google Sign In */}
           <button
             onClick={signInWithGoogle}
             className="w-full flex items-center justify-center px-4 py-3 border border-black text-black bg-white hover:bg-gray-50 font-medium rounded-lg transition-colors duration-200"
@@ -44,11 +81,83 @@ export function SignInPage() {
             </svg>
             Continuar con Google
           </button>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">o</span>
+            </div>
+          </div>
+
+          {/* Email/Password Form */}
+          <form onSubmit={handleEmailAuth} className="space-y-4">
+            <div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Contraseña"
+                required
+                minLength={6}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+              />
+            </div>
+            
+            {error && (
+              <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg">
+                {error}
+              </div>
+            )}
+            
+            {message && (
+              <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-lg">
+                {message}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full px-4 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Procesando...' : (isSignUp ? 'Crear cuenta' : 'Iniciar sesión')}
+            </button>
+          </form>
+
+          {/* Toggle Sign Up/Sign In */}
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setIsSignUp(!isSignUp)
+                setError('')
+                setMessage('')
+                setEmail('')
+                setPassword('')
+              }}
+              className="text-sm text-gray-600 hover:text-black transition-colors"
+            >
+              {isSignUp ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
+            </button>
+          </div>
         </div>
 
         <div className="text-center">
           <p className="text-sm text-gray-500">
-            Solo usuarios con correo @hybecorp.com
+            Empleados: usar Google • Invitados: crear cuenta con email
           </p>
         </div>
       </div>

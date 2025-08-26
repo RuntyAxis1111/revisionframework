@@ -164,7 +164,7 @@ export function DirectDashboard() {
               </div>
             )}
           </button>
-          <span className="text-sm text-gray-300">johan.martinez@hybecorp.com</span>
+          <span className="text-sm text-gray-300">{user.email}</span>
         </div>
       </div>
 
@@ -176,7 +176,7 @@ export function DirectDashboard() {
           className="w-full h-full border-0 min-h-0"
           allowFullScreen
           sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-        <span className="text-sm text-gray-300">{user.email}</span>
+        />
       </div>
     </div>
   )
