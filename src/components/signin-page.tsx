@@ -32,21 +32,26 @@ export function SignInPage() {
     setMessage('')
 
     try {
-      // ONLY check if it's a predefined VIP user - NO AUTO-CREATION
-      const vipUser = vipUsers.find(user => user.email === email && user.password === password)
+      // Security: Only validate against hardcoded VIP users
+      const isValidVIP = vipUsers.some(user => 
+        user.email === email.trim().toLowerCase() && 
+        user.password === password
+      )
       
-      if (vipUser) {
-        // Only try to sign in with existing VIP credentials
-        const { error } = await signInWithEmail(email, password)
-        
-        if (error) {
-          setError('VIP account not found in system. Please contact administrator.')
-        }
-      } else {
-        setError('Invalid VIP credentials. Access denied.')
+      if (!isValidVIP) {
+        setError('Access denied. Invalid credentials.')
+        return
+      }
+
+      // Only attempt Supabase login if VIP credentials are valid
+      const { error } = await signInWithEmail(email.trim().toLowerCase(), password)
+      
+      if (error) {
+        // Don't reveal specific error details for security
+        setError('Authentication failed. Please contact administrator.')
       }
     } catch (err) {
-      setError('Unexpected error. Please try again.')
+      setError('Authentication failed. Please try again.')
     } finally {
       setLoading(false)
     }

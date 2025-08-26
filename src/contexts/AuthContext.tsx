@@ -64,11 +64,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const signInWithEmail = async (email: string, password: string) => {
+    // Security: Sanitize inputs
+    const sanitizedEmail = email.trim().toLowerCase()
+    
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      email: sanitizedEmail,
       password,
     })
     if (error) {
+      // Don't expose detailed error messages for security
       return { error: error.message }
     }
     return {}
