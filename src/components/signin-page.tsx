@@ -4,12 +4,25 @@ import { useAuth } from '../contexts/AuthContext'
 
 export function SignInPage() {
   const { signInWithGoogle, signInWithEmail, signUp } = useAuth()
+  const [showEmailAuth, setShowEmailAuth] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+
+  // VIP users with predefined credentials
+  const vipUsers = [
+    {
+      email: 'jaime@lulofilms.com',
+      password: 'N_ZehDZpmt_f@h893*FQQm-KziXpgMb!nNfL.cUVLAbDHLLRAt'
+    },
+    {
+      email: 'caralf@gmail.com', 
+      password: 'TzLK*dCAYuXmZr-ndFbFUdLzkwh9Z7kGbkE3Mh68DpnZngP!FT'
+    }
+  ]
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,12 +31,34 @@ export function SignInPage() {
     setMessage('')
 
     try {
-      if (isSignUp) {
+      // Check if it's a VIP user
+      const vipUser = vipUsers.find(user => user.email === email && user.password === password)
+      
+      if (vipUser && !isSignUp) {
+        // For VIP users, try to sign in directly or create account if doesn't exist
+        let { error } = await signInWithEmail(email, password)
+        
+        if (error && error.includes('Invalid login credentials')) {
+          // If user doesn't exist, create the account first
+          const signUpResult = await signUp(email, password)
+          if (signUpResult.error) {
+            setError(signUpResult.error)
+          } else {
+            // After signup, try to sign in again
+            const signInResult = await signInWithEmail(email, password)
+            if (signInResult.error) {
+              setMessage('VIP account created! Please check your email to confirm your account.')
+            }
+          }
+        } else if (error) {
+          setError(error)
+        }
+      } else if (isSignUp) {
         const { error } = await signUp(email, password)
         if (error) {
           setError(error)
         } else {
-          setMessage('¡Registro exitoso! Revisa tu email para confirmar tu cuenta.')
+          setMessage('Registration successful! Please check your email to confirm your account.')
           setEmail('')
           setPassword('')
         }
@@ -34,7 +69,7 @@ export function SignInPage() {
         }
       }
     } catch (err) {
-      setError('Error inesperado. Intenta de nuevo.')
+      setError('Unexpected error. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -51,7 +86,7 @@ export function SignInPage() {
             DATA HUB
           </h2>
           <p className="text-gray-600 mb-8">
-            Accede con tu cuenta corporativa o como invitado
+            Access with your corporate account or as a guest
           </p>
         </div>
 
@@ -79,85 +114,93 @@ export function SignInPage() {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
               />
             </svg>
-            Continuar con Google
+            Continue with Google
           </button>
 
-          {/* Divider */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">o</span>
-            </div>
-          </div>
+          {/* VIP Access Button */}
+          <button
+            onClick={() => setShowEmailAuth(!showEmailAuth)}
+            className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 text-gray-700 bg-gray-50 hover:bg-gray-100 font-medium rounded-lg transition-colors duration-200"
+          >
+            <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            VIP Access
+            <svg className={`w-4 h-4 ml-2 transition-transform duration-200 ${showEmailAuth ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
 
-          {/* Email/Password Form */}
-          <form onSubmit={handleEmailAuth} className="space-y-4">
-            <div>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Contraseña"
-                required
-                minLength={6}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-            
-            {error && (
-              <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg">
-                {error}
+          {/* Email/Password Form - Dropdown */}
+          {showEmailAuth && (
+            <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 space-y-4 animate-in slide-in-from-top-2 duration-200">
+              <form onSubmit={handleEmailAuth} className="space-y-4">
+                <div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
+                    minLength={6}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                  />
+                </div>
+                
+                {error && (
+                  <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg">
+                    {error}
+                  </div>
+                )}
+                
+                {message && (
+                  <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-lg">
+                    {message}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full px-4 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Processing...' : (isSignUp ? 'Create Account' : 'Sign In')}
+                </button>
+              </form>
+
+              {/* Toggle Sign Up/Sign In */}
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSignUp(!isSignUp)
+                    setError('')
+                    setMessage('')
+                    setEmail('')
+                    setPassword('')
+                  }}
+                  className="text-sm text-gray-600 hover:text-black transition-colors"
+                >
+                  {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Register"}
+                </button>
               </div>
-            )}
-            
-            {message && (
-              <div className="text-green-600 text-sm text-center bg-green-50 p-3 rounded-lg">
-                {message}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full px-4 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Procesando...' : (isSignUp ? 'Crear cuenta' : 'Iniciar sesión')}
-            </button>
-          </form>
-
-          {/* Toggle Sign Up/Sign In */}
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={() => {
-                setIsSignUp(!isSignUp)
-                setError('')
-                setMessage('')
-                setEmail('')
-                setPassword('')
-              }}
-              className="text-sm text-gray-600 hover:text-black transition-colors"
-            >
-              {isSignUp ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
-            </button>
-          </div>
+            </div>
+          )}
         </div>
 
         <div className="text-center">
           <p className="text-sm text-gray-500">
-            Empleados: usar Google • Invitados: crear cuenta con email
+            Employees: use Google • Guests: create account with email
           </p>
         </div>
       </div>

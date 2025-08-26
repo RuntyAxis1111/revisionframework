@@ -54,7 +54,7 @@ export function Header({ activeTab, onTabChange, onItemSelect, data }: HeaderPro
                 onClick={signOut}
                 className="text-sm px-3 py-1 border border-black text-black hover:bg-black hover:text-white transition-colors rounded"
               >
-                Cerrar sesión
+                Sign Out
               </button>
             </div>
           </div>

@@ -25,11 +25,11 @@ export function AccessDenied() {
           </div>
           
           <h1 className="text-2xl font-bold text-black">
-            Acceso Denegado
+            Access Denied
           </h1>
           
           <p className="text-gray-600">
-            Acceso permitido para empleados @hybecorp.com o cuentas de invitado confirmadas
+            Access allowed for @hybecorp.com employees or confirmed guest accounts
           </p>
         </div>
 
@@ -37,7 +37,7 @@ export function AccessDenied() {
           onClick={signOut}
           className="w-full px-4 py-3 border border-black text-black bg-white hover:bg-gray-50 font-medium rounded-lg transition-colors duration-200"
         >
-          Intentar con otra cuenta
+          Try with another account
         </button>
       </div>
     </div>
