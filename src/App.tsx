@@ -30,7 +30,8 @@ export default function App() {
   // Check if user email is from @hybecorp.com
   const isAuthorized = user.email?.endsWith('@hybecorp.com') || 
                       user.email === 'jaime@lulofilms.com' ||
-                      user.email === 'caralf@gmail.com'
+                      user.email === 'caralf@gmail.com' ||
+                      user.email === 'gatito.enano1@gmail.com'
 
   if (!isAuthorized) {
     return <AccessDenied />

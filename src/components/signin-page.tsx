@@ -22,6 +22,10 @@ export function SignInPage() {
     {
       email: 'caralf@gmail.com', 
       password: 'TzLK*dCAYuXmZr-ndFbFUdLzkwh9Z7kGbkE3Mh68DpnZngP!FT'
+    },
+    {
+      email: 'gatito.enano1@gmail.com',
+      password: 'dTHrYcFRWAmoPctA*XNVP!yN@NM*yYLjph!pa8y2q!c!ohvu4R'
     }
   ]
 
