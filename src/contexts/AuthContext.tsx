@@ -64,16 +64,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const signInWithEmail = async (email: string, password: string) => {
-    // Security: Sanitize inputs
+    // Security: Validate and sanitize inputs
     const sanitizedEmail = email.trim().toLowerCase()
+    
+    if (!sanitizedEmail || !password) {
+      return { error: 'Email and password are required' }
+    }
+    
+    if (sanitizedEmail.length > 254 || password.length > 128) {
+      return { error: 'Invalid input length' }
+    }
     
     const { error } = await supabase.auth.signInWithPassword({
       email: sanitizedEmail,
       password,
     })
+    
     if (error) {
-      // Don't expose detailed error messages for security
-      return { error: error.message }
+      // Security: Don't expose detailed error messages
+      console.error('SignIn error:', error.message)
+      return { error: 'Authentication failed' }
     }
     return {}
   }

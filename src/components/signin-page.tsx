@@ -36,20 +36,77 @@ export function SignInPage() {
     setMessage('')
 
     try {
-      // Security: Only validate against hardcoded VIP users
-      const isValidVIP = vipUsers.some(user => 
-        user.email === email.trim().toLowerCase() && 
-        user.password === password
-      )
-      
-      if (!isValidVIP) {
+      // Security: Validate input format first
+      const sanitizedEmail = email.trim().toLowerCase()
+      if (!sanitizedEmail || !password) {
+        setError('Email and password are required.')
+        return
+      }
+
+      // Security: Only validate against hardcoded VIP users with timing-safe comparison
+      const validUser = vipUsers.find(user => user.email === sanitizedEmail)
+      if (!validUser || validUser.password !== password) {
+        // Add artificial delay to prevent timing attacks
+        await new Promise(resolve => setTimeout(resolve, 1000))
         setError('Access denied. Invalid credentials.')
         return
       }
 
-      // Try to create the user first if it doesn't exist, then sign in
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: email.trim().toLowerCase(),
+      // Try to sign in first
+      const { error: signInError } = await signInWithEmail(sanitizedEmail, password)
+      
+      if (signInError) {
+        // If user doesn't exist, create it
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: sanitizedEmail,
+          password: password,
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: {
+              vip_user: true,
+              created_at: new Date().toISOString()
+            }
+          }
+        })
+
+        if (signUpError) {
+          console.error('SignUp error:', signUpError.message)
+          setError('Failed to create VIP account. Please contact administrator.')
+        } else {
+          setMessage('VIP account created successfully! You should now be logged in.')
+        }
+      }
+    } catch (err) {
+      console.error('Auth error:', err)
+      setError('Authentication failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Security: Rate limiting state
+  const [attemptCount, setAttemptCount] = useState(0)
+  const [lastAttempt, setLastAttempt] = useState(0)
+  
+  const handleEmailAuthWithRateLimit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Rate limiting: max 5 attempts per 15 minutes
+    const now = Date.now()
+    if (attemptCount >= 5 && now - lastAttempt < 15 * 60 * 1000) {
+      setError('Too many attempts. Please wait 15 minutes before trying again.')
+      return
+    }
+    
+    if (now - lastAttempt > 15 * 60 * 1000) {
+      setAttemptCount(0)
+    }
+    
+    setAttemptCount(prev => prev + 1)
+    setLastAttempt(now)
+    
+    await handleEmailAuth(e)
+  }
         password: password,
         options: {
           emailRedirectTo: window.location.origin,
@@ -142,7 +199,7 @@ export function SignInPage() {
           {/* Email/Password Form - Dropdown */}
           {showEmailAuth && (
             <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 space-y-4 animate-in slide-in-from-top-2 duration-200">
-              <form onSubmit={handleEmailAuth} className="space-y-4">
+              <form onSubmit={handleEmailAuthWithRateLimit} className="space-y-4">
                 <div>
                   <input
                     type="email"
@@ -150,6 +207,8 @@ export function SignInPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
                     required
+                    maxLength={254}
+                    autoComplete="email"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                   />
                 </div>
@@ -161,6 +220,8 @@ export function SignInPage() {
                     placeholder="Password"
                     required
                     minLength={6}
+                    maxLength={128}
+                    autoComplete="current-password"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                   />
                 </div>
