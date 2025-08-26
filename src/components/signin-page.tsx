@@ -47,16 +47,34 @@ export function SignInPage() {
         return
       }
 
-      // Only attempt Supabase login if VIP credentials are valid
-      const { error } = await signInWithEmail(email.trim().toLowerCase(), password)
-      
-      if (error) {
-        // Handle specific email confirmation error for VIP users
-        if (error.message?.includes('Email not confirmed') || error.message?.includes('email_not_confirmed')) {
-          setError('VIP account exists but email not confirmed. Please contact administrator to activate your account.')
-        } else {
-          setError('Authentication failed. Please contact administrator.')
+      // Try to create the user first if it doesn't exist, then sign in
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: email.trim().toLowerCase(),
+        password: password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: {
+            vip_user: true
+          }
         }
+      })
+
+      // If user already exists, try to sign in
+      if (signUpError && signUpError.message?.includes('already registered')) {
+        const { error: signInError } = await signInWithEmail(email.trim().toLowerCase(), password)
+        
+        if (signInError) {
+          if (signInError.message?.includes('Email not confirmed') || signInError.message?.includes('email_not_confirmed')) {
+            setError('VIP account exists but email not confirmed. Please contact administrator to activate your account.')
+          } else {
+            setError('Authentication failed. Please contact administrator.')
+          }
+        }
+      } else if (signUpError) {
+        setError('Failed to create VIP account. Please contact administrator.')
+      } else {
+        // New user created successfully
+        setMessage('VIP account created successfully! Please check your email to confirm your account, or contact administrator for immediate access.')
       }
     } catch (err) {
       setError('Authentication failed. Please try again.')
