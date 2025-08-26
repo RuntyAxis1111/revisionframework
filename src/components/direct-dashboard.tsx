@@ -1,12 +1,12 @@
 import { useParams, useNavigate } from 'react-router-dom'
-// import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 import { data } from '../lib/data'
 import { useEffect, useState } from 'react'
 
 export function DirectDashboard() {
   const { section, platform } = useParams()
   const navigate = useNavigate()
-  // const { user, loading } = useAuth()
+  const { user, loading } = useAuth()
   const [reportUrl, setReportUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showCopyMessage, setShowCopyMessage] = useState(false)
@@ -85,21 +85,21 @@ export function DirectDashboard() {
       setTimeout(() => setShowCopyMessage(false), 2000)
     }
   }
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen bg-white flex items-center justify-center">
-  //       <div className="text-center">
-  //         <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-  //         <p className="text-black">Cargando...</p>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-black">Cargando...</p>
+        </div>
+      </div>
+    )
+  }
 
-  // if (!user || !user.email?.endsWith('@hybecorp.com')) {
-  //   navigate('/')
-  //   return null
-  // }
+  if (!user || !user.email?.endsWith('@hybecorp.com')) {
+    navigate('/')
+    return null
+  }
 
   if (error) {
     return (
@@ -176,7 +176,7 @@ export function DirectDashboard() {
           className="w-full h-full border-0 min-h-0"
           allowFullScreen
           sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-        />
+        <span className="text-sm text-gray-300">{user.email}</span>
       </div>
     </div>
   )
