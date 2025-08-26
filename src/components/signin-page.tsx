@@ -32,46 +32,18 @@ export function SignInPage() {
     setMessage('')
 
     try {
-      // Check if it's a VIP user
+      // ONLY check if it's a predefined VIP user - NO AUTO-CREATION
       const vipUser = vipUsers.find(user => user.email === email && user.password === password)
       
       if (vipUser) {
-        // For VIP users, try to sign in directly
+        // Only try to sign in with existing VIP credentials
         const { error } = await signInWithEmail(email, password)
         
         if (error) {
-          if (error.includes('Invalid login credentials') || error.includes('Email not confirmed')) {
-            // If user doesn't exist or email not confirmed, create account with auto-confirmation
-            const { data, error: signUpError } = await supabase.auth.signUp({
-              email,
-              password,
-              options: {
-                emailRedirectTo: window.location.origin,
-                data: {
-                  email_confirmed: true // Mark as confirmed for VIP users
-                }
-              }
-            })
-            
-            if (signUpError) {
-              setError('Error creating VIP account: ' + signUpError.message)
-            } else {
-              // For VIP users, we'll manually confirm them via admin
-              setMessage('VIP account created successfully! You can now sign in.')
-              // Try to sign in again after a short delay
-              setTimeout(async () => {
-                const { error: retryError } = await signInWithEmail(email, password)
-                if (retryError) {
-                  setError('Please try signing in again in a moment.')
-                }
-              }, 2000)
-            }
-          } else {
-            setError(error)
-          }
+          setError('VIP account not found in system. Please contact administrator.')
         }
       } else {
-        setError('Invalid VIP credentials. Only authorized users can access.')
+        setError('Invalid VIP credentials. Access denied.')
       }
     } catch (err) {
       setError('Unexpected error. Please try again.')
