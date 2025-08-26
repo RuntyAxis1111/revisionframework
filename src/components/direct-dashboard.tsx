@@ -115,9 +115,9 @@ export function DirectDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="h-screen bg-white flex flex-col">
       {/* Header with back button */}
-      <div className="bg-black text-white p-4 flex items-center justify-between">
+      <div className="bg-black text-white p-4 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/')}
@@ -135,11 +135,11 @@ export function DirectDashboard() {
       </div>
 
       {/* Dashboard iframe */}
-      <div className="flex-1">
+      <div className="flex-1 h-full">
         <iframe
           src={reportUrl}
           title={`${section?.toUpperCase()} - ${platform?.toUpperCase()} Dashboard`}
-          className="w-full h-full border-0"
+          className="w-full h-full border-0 min-h-0"
           allowFullScreen
           sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         />
