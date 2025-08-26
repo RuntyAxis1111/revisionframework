@@ -34,7 +34,7 @@ export function SignInPage() {
       // Check if it's a VIP user
       const vipUser = vipUsers.find(user => user.email === email && user.password === password)
       
-      if (vipUser && !isSignUp) {
+      if (vipUser) {
         // For VIP users, try to sign in directly or create account if doesn't exist
         let { error } = await signInWithEmail(email, password)
         
@@ -53,20 +53,8 @@ export function SignInPage() {
         } else if (error) {
           setError(error)
         }
-      } else if (isSignUp) {
-        const { error } = await signUp(email, password)
-        if (error) {
-          setError(error)
-        } else {
-          setMessage('Registration successful! Please check your email to confirm your account.')
-          setEmail('')
-          setPassword('')
-        }
       } else {
-        const { error } = await signInWithEmail(email, password)
-        if (error) {
-          setError(error)
-        }
+        setError('Invalid VIP credentials. Only authorized users can access.')
       }
     } catch (err) {
       setError('Unexpected error. Please try again.')
@@ -174,33 +162,16 @@ export function SignInPage() {
                   disabled={loading}
                   className="w-full px-4 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Processing...' : (isSignUp ? 'Create Account' : 'Sign In')}
+                  {loading ? 'Processing...' : 'Sign In'}
                 </button>
               </form>
-
-              {/* Toggle Sign Up/Sign In */}
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsSignUp(!isSignUp)
-                    setError('')
-                    setMessage('')
-                    setEmail('')
-                    setPassword('')
-                  }}
-                  className="text-sm text-gray-600 hover:text-black transition-colors"
-                >
-                  {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Register"}
-                </button>
-              </div>
             </div>
           )}
         </div>
 
         <div className="text-center">
           <p className="text-sm text-gray-500">
-            Employees: use Google • Guests: create account with email
+            Employees: use Google • VIP users: authorized access only
           </p>
         </div>
       </div>
