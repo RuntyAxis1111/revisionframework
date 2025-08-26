@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { ArtistPanel } from "./artist-panel"
 
 interface ContentSectionProps {
@@ -11,6 +12,8 @@ interface ContentSectionProps {
 }
 
 export function ContentSection({ activeTab, selectedItem, data }: ContentSectionProps) {
+  const [showCopyMessage, setShowCopyMessage] = useState(false)
+
   const getReportUrl = () => {
     if (!selectedItem || activeTab === "artists") return null
 
@@ -44,6 +47,56 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
     }
 
     return null
+  }
+
+  const generateShareableUrl = () => {
+    if (!selectedItem) return null
+    
+    const { id, type, socialId } = selectedItem
+    const baseUrl = window.location.origin
+    
+    if (type === "artist") {
+      return `${baseUrl}/artists/${id}`
+    }
+    
+    if (type === "palf-social") {
+      return `${baseUrl}/palf/${id}`
+    }
+    
+    if (type === "palf-band-social") {
+      return `${baseUrl}/palf/${socialId}`
+    }
+    
+    if (type === "stbv-social") {
+      return `${baseUrl}/stbv/${id}`
+    }
+    
+    if (type === "community-social") {
+      return `${baseUrl}/communities/${id}/${socialId}`
+    }
+    
+    return null
+  }
+
+  const handleShareReport = async () => {
+    const shareUrl = generateShareableUrl()
+    if (!shareUrl) return
+    
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      setShowCopyMessage(true)
+      setTimeout(() => setShowCopyMessage(false), 2000)
+    } catch (err) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea')
+      textArea.value = shareUrl
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      setShowCopyMessage(true)
+      setTimeout(() => setShowCopyMessage(false), 2000)
+    }
   }
 
   const reportUrl = getReportUrl()
@@ -303,8 +356,31 @@ export function ContentSection({ activeTab, selectedItem, data }: ContentSection
           <ArtistPanel artist={selectedArtist} />
         ) : reportUrl ? (
           <>
-            <div className="bg-black text-white p-3 flex justify-between items-center flex-shrink-0 h-16">
+            <div className="bg-black text-white p-3 flex justify-between items-center flex-shrink-0 h-16 relative">
               <span className="font-bold uppercase">{`${activeTab.toUpperCase()} Data Panel`}</span>
+              
+              {/* Share Report Button */}
+              <button
+                onClick={handleShareReport}
+                className="bg-white text-black w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-100 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 relative group"
+                title="Share Report"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                </svg>
+                
+                {/* Tooltip */}
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                  Share Report
+                </div>
+              </button>
+              
+              {/* Success Message */}
+              {showCopyMessage && (
+                <div className="absolute top-full right-0 mt-2 bg-green-600 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap z-10 shadow-lg">
+                  ✓ URL copiada al portapapeles
+                </div>
+              )}
             </div>
             <div className="flex-1 h-full overflow-y-auto">
               <iframe
