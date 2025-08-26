@@ -47,8 +47,12 @@ export function SignInPage() {
       const { error } = await signInWithEmail(email.trim().toLowerCase(), password)
       
       if (error) {
-        // Don't reveal specific error details for security
-        setError('Authentication failed. Please contact administrator.')
+        // Handle specific email confirmation error for VIP users
+        if (error.message?.includes('Email not confirmed') || error.message?.includes('email_not_confirmed')) {
+          setError('VIP account exists but email not confirmed. Please contact administrator to activate your account.')
+        } else {
+          setError('Authentication failed. Please contact administrator.')
+        }
       }
     } catch (err) {
       setError('Authentication failed. Please try again.')
