@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import { supabase } from '../lib/supabase'
 
 export function SignInPage() {
   const { signInWithGoogle, signInWithEmail, signUp } = useAuth()
@@ -35,23 +36,39 @@ export function SignInPage() {
       const vipUser = vipUsers.find(user => user.email === email && user.password === password)
       
       if (vipUser) {
-        // For VIP users, try to sign in directly or create account if doesn't exist
-        let { error } = await signInWithEmail(email, password)
+        // For VIP users, try to sign in directly
+        const { error } = await signInWithEmail(email, password)
         
-        if (error && error.includes('Invalid login credentials')) {
-          // If user doesn't exist, create the account first
-          const signUpResult = await signUp(email, password)
-          if (signUpResult.error) {
-            setError(signUpResult.error)
-          } else {
-            // After signup, try to sign in again
-            const signInResult = await signInWithEmail(email, password)
-            if (signInResult.error) {
-              setMessage('VIP account created! Please check your email to confirm your account.')
+        if (error) {
+          if (error.includes('Invalid login credentials') || error.includes('Email not confirmed')) {
+            // If user doesn't exist or email not confirmed, create account with auto-confirmation
+            const { data, error: signUpError } = await supabase.auth.signUp({
+              email,
+              password,
+              options: {
+                emailRedirectTo: window.location.origin,
+                data: {
+                  email_confirmed: true // Mark as confirmed for VIP users
+                }
+              }
+            })
+            
+            if (signUpError) {
+              setError('Error creating VIP account: ' + signUpError.message)
+            } else {
+              // For VIP users, we'll manually confirm them via admin
+              setMessage('VIP account created successfully! You can now sign in.')
+              // Try to sign in again after a short delay
+              setTimeout(async () => {
+                const { error: retryError } = await signInWithEmail(email, password)
+                if (retryError) {
+                  setError('Please try signing in again in a moment.')
+                }
+              }, 2000)
             }
+          } else {
+            setError(error)
           }
-        } else if (error) {
-          setError(error)
         }
       } else {
         setError('Invalid VIP credentials. Only authorized users can access.')
