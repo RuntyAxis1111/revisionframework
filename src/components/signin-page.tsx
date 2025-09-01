@@ -26,8 +26,6 @@ export function SignInPage() {
     {
       email: 'gatito.enano1@gmail.com',
       password: 'dTHrYcFRWAmoPctA*XNVP!yN@NM*yYLjph!pa8y2q!c!ohvu4R'
-    }
-  }
   ]
 
   const handleEmailAuth = async (e: React.FormEvent) => {
@@ -61,7 +59,21 @@ export function SignInPage() {
         const { error: signUpError } = await supabase.auth.signUp({
           email: sanitizedEmail,
           password: password,
+        })
+        
+        if (signUpError) {
+          setError('Failed to create account.')
+          return
+        }
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const handleEmailAuthWithRateLimit = handleEmailAuth
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">
