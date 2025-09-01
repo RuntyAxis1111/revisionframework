@@ -26,6 +26,7 @@ export function SignInPage() {
     {
       email: 'gatito.enano1@gmail.com',
       password: 'dTHrYcFRWAmoPctA*XNVP!yN@NM*yYLjph!pa8y2q!c!ohvu4R'
+    }
   ]
 
   const handleEmailAuth = async (e: React.FormEvent) => {
